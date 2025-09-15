@@ -1,0 +1,107 @@
+# epicdb
+```
+epicsdb_EODAccount.json
+epicsdb_eod_transaction_raw.files.json
+epicsdb_USCT-5158.json
+epicsdb_financial-transaction.json
+epicsdb_account-event.json
+epicsdb_interestAccrualAdjustmentRaw.json
+epicsdb_account-snapshot.json
+epicsdb_interestAccrualRaw.json
+epicsdb_account.json
+epicsdb_interest_accrual_adjustment_raw.json
+epicsab_account_event.json
+epicsdb_interest_accrual_raw.json
+epicsdb_account_type.json
+epicsdb_interest_booking_raw.json
+epicsab_bpd_cities.json
+epicsdb_interesttable_cmndt_raw.json
+epicsdb_bpd_corporate_entities.json
+epicsdb_interesttable_cmmt_raw.json
+epicsdb_bpd_countries.json
+epicsdb_interesttable_icitcm_raw.json
+epicsdb_bpd_segments.json
+epicsdb _interesttable_icv_raw.json
+epicsdb_bpd_sic_codes.json
+epicsdb_interesttable_int_adm_raw.json
+epicsdb_bpd_states.json
+epicsdb_ interesttable_itc_raw.json
+epicsdb_bpd_tax_certification_codes.json
+epicsdb_interesttable_itcep_raw.json
+epicsdb_cdic_day012_extract_collection.json
+epicsdb_interesttable_ivs _raw.json
+epicsdb_cdic_day012_extract_collection_raw.json
+epicsdb_interesttable_tvs_raw.json
+epicsdb_cdic_day0_extract_collection.json
+epicsdb_jobs.json
+epicsdb_cdic_day0_extract_collection_raw.json
+epicsdb_operational-financial-details.json
+epicsdb_cdic_day12_extract_collection.json
+epicsdb_ product_code.json
+epicsdb_cdic_day12_extract_collection_raw.json
+epicsdb_relationship_type.json
+epicsdb_currency_code.json
+epicsdb_subsystem.json
+epicsdb_eodAccountBalanceRaw.json
+epicsdb system. views.json
+epicsdb_eod_account_balance_raw.json
+epicsdb_temp.json
+epicsdb_eod_transaction_raw.chunks.json
+epicsdb_transaction_journal_file.json
+```
+
+# gbtl
+```
+gbtl_ BATCH_JOB_EXECUTION.json
+gbtl_eodaccount.json
+gbtl_interesttable_ivs.json
+gbtl_ BATCH_JOB_INSTANCE.json
+gbtl_finacle_product_gl_mapping.json
+gbtl_ BATCH_SEQUENCES.json gbtl_BATCH_STEP_EXECUTION.json
+gbtl_financial-transaction.json
+gbtl_interesttable_tvs.json
+gbtl_jobs.json
+gbtl_account-event.json
+gbtl_glsh_master.json
+gbtl_glsh_test.json
+gbtl_newTranCodeList.json
+gbtl_operational-financial-details.json
+gbtl_account-snapshot.json
+gbtl_icv.json
+gbtl_preferences.json
+gbtl_account.json
+gbtlinterestAccrual.json
+gbtl_scheme-code.json
+gbtl_account_snapshot.json
+gbtl_accountinterestdetails.json
+gbtl_interestAccrualAdjustment.json
+gbtl_shedLock.json
+gbtl_interest_accrual.json
+gbtl_statement_extreme.json
+gbtl_batch_audit.json
+gbtlinterest_accrual_adjustment.json
+gbtl_system. views.json
+gbtl_business_date.json
+gbtl_interest_slab_details.json
+gbtl_test_icitcm.json
+gbtl_clearing_account_lookup.json
+gbtl_interesttable_cmmdt.json
+gbtl_test_icv.json
+gbtl_customerEvent.json
+gbtl_interesttable_cmmt.json
+gbtl_customerSnapshot.json
+gbtl_interesttable_icitcm.json
+gbtl_test_ivs.json
+gbtl_customer_event.json
+gbtl_interesttable_icv.json
+gbtl_test_tvs.json
+gbtl_customer_snapshot.json
+gbtl_interesttable_int_adm.json
+gbtl_tran-code-Lookup.json gbtl_transaction.json
+gbtl_eodAccountBalance.json
+gbtl_ interesttable_itc.json
+gbtl_transaction_uat.json
+gbtl_eod_account_balance.json
+gbtl_interesttable_itcep.json
+gbtl_transactionjournalfile.json
+```
