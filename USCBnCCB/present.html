@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPICS Architecture - Building Blocks for Banking</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #C8102E, #FFD100, #FFFFFF, #000000);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .slide {
+            min-height: 600px;
+            padding: 40px;
+            display: none;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-header {
+            background: linear-gradient(45deg, #C8102E, #FFD100);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .slide-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .lego-brick {
+            background: #C8102E;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            position: relative;
+            display: inline-block;
+            min-width: 200px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .lego-brick:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 20px;
+            background: inherit;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .lego-brick.blue { background: #1E3F72; }
+        .lego-brick.green { background: #006A4E; }
+        .lego-brick.yellow { background: #FFD100; color: #000; }
+        .lego-brick.purple { background: #5A1F5A; }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .nav-btn {
+            background: #C8102E;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .nav-btn:hover {
+            background: #A00E28;
+        }
+
+        .nav-btn.active {
+            background: #FFD100;
+            color: #000;
+        }
+
+        .architecture-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #C8102E;
+            margin: 0 15px;
+        }
+
+        .component-box {
+            border: 3px solid #C8102E;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .placeholder-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: #C8102E;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #C8102E 0%, #5A1F5A 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title Slide -->
+        <div class="slide active">
+            <div class="slide-header">
+                <h1>🧱 Building the Future of Banking with EPICS 🧱</h1>
+                <h2>LEGO-Style Architecture for Core Banking Solutions</h2>
+            </div>
+            
+            <div class="placeholder-image">
+                [IMAGE PLACEHOLDER: Large LEGO minifigure banker with building blocks representing different banking services]
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <div class="lego-brick">
+                    <h3>US Core Banking Wrapper</h3>
+                    <p>Finacle Integration</p>
+                </div>
+                <span class="flow-arrow">➜</span>
+                <div class="lego-brick blue">
+                    <h3>Canadian Expansion</h3>
+                    <p>DDA & IP Integration</p>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <!-- Slide 2: What is EPICS? -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>🏗️ What is EPICS?</h1>
+                <h2>Your Banking Architecture Building Blocks</h2>
+            </div>
+            
+            <!-- Upstream -->
+            <div class="architecture-diagram">
+                <div class="component-box">
+                    <h4>📊 Data Repository</h4>
+                    <p>CIF/CAF & Interest Data</p>
+                </div>
+                <div class="component-box">
+                    <h4>📱 Channel Service</h4>
+                    <p>Banking Applications</p>
+                </div>
+            </div>
+            <div class="flow-arrow">⬇️</div>
+            
+            <!-- EPICS Layer -->
+            <div class="architecture-diagram">
+                <div class="component-box">
+                    <h3>🧱 EPICS API</h3>
+                    <p>Transform, Validate, Log</p>
+                </div>
+                <div class="component-box">
+                    <h3>🔄 EPICS Data</h3>
+                    <p>Event Processing</p>
+                </div>
+            </div>
+            <div class="flow-arrow">⬇️</div>
+            
+            <!-- Core System -->
+            <div class="component-box" style="background: #FFD100; color: #000; margin: 20px auto; max-width: 300px;">
+                <h2>🎯 FINACLE CORE</h2>
+                <p>Banking Operations</p>
+            </div>
+            <div class="flow-arrow">⬇️</div>
+            
+            <!-- Downstream -->
+            <div class="architecture-diagram">
+                <div class="component-box">
+                    <h4>📁 EFH (sFTP)</h4>
+                    <p>File Processing</p>
+                </div>
+                <div class="component-box">
+                    <h4>⚡ Kafka Events</h4>
+                    <p>Real-time Streaming</p>
+                </div>
+                <div class="component-box">
+                    <h4>🗄️ GBTL (MongoDB)</h4>
+                    <p>Data Storage</p>
+                </div>
+            </div>
+            <div class="flow-arrow">⬇️</div>
+            
+            <!-- Reporting -->
+            <div class="architecture-diagram">
+                <div class="component-box">
+                    <h4>📈 EPICS Reporting</h4>
+                    <p>AML, Treasury, Compliance</p>
+                </div>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>🚀 Standardization</h3>
+                    <p>Complies with Bank standards for consistent API calls</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🔒 Security</h3>
+                    <p>Built-in validation and logging for all transactions</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🔄 Integration</h3>
+                    <p>End-to-end data flow management from upstream to downstream</p>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <!-- Slide 3: US Architecture Overview -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>🇺🇸 US Core Banking Architecture</h1>
+                <h2>Current EPICS Implementation with Finacle</h2>
+            </div>
+            
+            <div class="placeholder-image">
+                [IMAGE PLACEHOLDER: Complete US architecture diagram showing data flow from Channel Services through EPICS to Finacle and downstream to reporting systems, styled as interconnected LEGO building blocks]
+            </div>
+        </div>
+
+        <!-- Slide 4: Data Flow Details -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>📊 US Data Flow - The LEGO Assembly Line</h1>
+            </div>
+            
+            <div class="placeholder-image">
+                [IMAGE PLACEHOLDER: LEGO factory conveyor belt showing data transformation stages]
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Component</th>
+                        <th>Function</th>
+                        <th>Data Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🔄 Upstream</td>
+                        <td>EPICS Data</td>
+                        <td>CIF/CAF & Interest Data Injection</td>
+                        <td>Events to Finacle</td>
+                    </tr>
+                    <tr>
+                        <td>⚙️ Processing</td>
+                        <td>EPICS API</td>
+                        <td>Transform, Validate, Log</td>
+                        <td>RESTful API Requests</td>
+                    </tr>
+                    <tr>
+                        <td>📤 Downstream</td>
+                        <td>EPICS Reporting</td>
+                        <td>Aggregation & Transform</td>
+                        <td>AML, Treasury Reports</td>
+                    </tr>
+                    <tr>
+                        <td>💾 Storage</td>
+                        <td>GBTL (MongoDB)</td>
+                        <td>Data Repository</td>
+                        <td>Processed Banking Data</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+
+        </div>
+
+        <!-- Slide 5: Canadian Architecture Overview -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>🇨🇦 Canadian Core Banking Architecture</h1>
+                <h2>New Building Blocks - DDA & IP Integration</h2>
+            </div>
+            
+            <div class="placeholder-image">
+                [IMAGE PLACEHOLDER: Canadian architecture diagram showing Channel Service → TDS → FPS → dual core systems (DDA + IP) with FPS event publisher, designed as modular LEGO components with Canadian flag colors]
+            </div>
+        </div>
+
+        <!-- Slide 6: Architecture Comparison -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>⚖️ Architecture Comparison</h1>
+                <h2>US vs Canadian - Building with Different Blocks</h2>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>🇺🇸 US (Finacle)</th>
+                        <th>🇨🇦 Canadian (DDA/IP)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Core Platform</strong></td>
+                        <td>Single Finacle System</td>
+                        <td>Dual System (DDA + IP)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API Gateway</strong></td>
+                        <td>EPICS API (RESTful)</td>
+                        <td>TDS → FPS → Core Systems</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Integration</strong></td>
+                        <td>Direct CIF/CAF injection</td>
+                        <td>Schema transformation via TDS</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transaction Processing</strong></td>
+                        <td>Finacle native processing</td>
+                        <td>FX handling + Multi-system posting</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reconciliation</strong></td>
+                        <td>EFH files + Kafka events</td>
+                        <td>FPS event publisher</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexity Level</strong></td>
+                        <td>Medium - Single core system</td>
+                        <td>High - Dual core coordination</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EPICS Opportunity</strong></td>
+                        <td>Proven wrapper solution</td>
+                        <td>Enhanced orchestration layer</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <div class="lego-brick yellow">
+                    <strong>Key Insight: Canadian system requires more sophisticated orchestration and dual-core management</strong>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <!-- Slide 7: Potential Canadian Offerings -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>🚀 Canadian Market Opportunities</h1>
+                <h2>What EPICS Can Build for Canada</h2>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>🔧 API Standardization</h3>
+                    <p>Unified interface for DDA/IP dual-core complexity</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>💱 FX Integration</h3>
+                    <p>Built-in foreign exchange handling for Canadian banking</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>📊 Enhanced Reporting</h3>
+                    <p>Cross-system data aggregation and compliance reporting</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🔄 Event Orchestration</h3>
+                    <p>Sophisticated reconciliation across multiple core systems</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🛡️ Risk Management</h3>
+                    <p>Enhanced validation layers for complex transaction flows</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>📈 Scalability</h3>
+                    <p>Proven EPICS architecture adapted for Canadian requirements</p>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <!-- Slide 8: Next Steps -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>🎯 Next Steps - Building Our Canadian Solution</h1>
+            </div>
+            
+            <div class="architecture-diagram" style="flex-direction: column;">
+                <div class="lego-brick yellow">
+                    <h3>Phase 1: Analysis</h3>
+                    <p>Deep dive into DDA/IP integration patterns and existing TDS/FPS workflows</p>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="lego-brick blue">
+                    <h3>Phase 2: Design</h3>
+                    <p>Adapt EPICS architecture for Canadian dual-core with enhanced orchestration</p>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="lego-brick green">
+                    <h3>Phase 3: Implementation</h3>
+                    <p>Build EPICS wrapper for TDS-FPS integration layer with FX capabilities</p>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="lego-brick purple">
+                    <h3>Phase 4: Validation</h3>
+                    <p>Testing with Canadian banking scenarios and reconciliation workflows</p>
+                </div>
+            </div>
+            
+            <div class="benefits-grid" style="margin-top: 40px;">
+                <div class="benefit-card">
+                    <h3>🎯 Success Metrics</h3>
+                    <p>Reduced integration complexity, improved transaction accuracy, enhanced reporting capabilities</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>📊 Business Value</h3>
+                    <p>Standardized API layer, unified monitoring, compliance-ready reporting across dual cores</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <div class="lego-brick" style="font-size: 1.5em; padding: 30px; background: #FFD100; color: #000;">
+                    <strong>Ready to Build the Future of Canadian Banking! 🏗️🇨🇦</strong>
+                </div>
+            </div>
+            
+
+        </div><
+        </div>
+        
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSlide(1)">1</button>
+            <button class="nav-btn" onclick="showSlide(2)">2</button>
+            <button class="nav-btn" onclick="showSlide(3)">3</button>
+            <button class="nav-btn" onclick="showSlide(4)">4</button>
+            <button class="nav-btn" onclick="showSlide(5)">5</button>
+            <button class="nav-btn" onclick="showSlide(6)">6</button>
+            <button class="nav-btn" onclick="showSlide(7)">7</button>
+            <button class="nav-btn" onclick="showSlide(8)">8</button>
+            <span style="color: white; margin: 0 20px;">|</span>
+            <button class="nav-btn" onclick="prevSlide()">← Previous</button>
+            <button class="nav-btn" onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function showSlide(slideNum) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show selected slide
+            document.querySelectorAll('.slide')[slideNum - 1].classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (slideNum <= totalSlides) {
+                document.querySelectorAll('.nav-btn')[slideNum - 1].classList.add('active');
+            }
+            
+            currentSlide = slideNum;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
