@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Stable Coins & Tokenized Deposits - Scotiabank Executive Presentation</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background:linear-gradient(135deg,#1e3c72 0%,#2a5298 100%);
+        min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+    .presentation-container{width:100%;max-width:1200px;background:#fff;border-radius:20px;
+        box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;position:relative}
+    .slide{width:100%;min-height:700px;padding:60px;display:none;animation:slideIn .5s ease-in-out}
+    .slide.active{display:block}
+    @keyframes slideIn{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+    .slide-header{text-align:center;margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid #EC0000}
+    h1{color:#1e3c72;font-size:36px;font-weight:700;margin-bottom:10px}
+    h2{color:#EC0000;font-size:28px;margin-bottom:20px;font-weight:600}
+    h3{color:#2a5298;font-size:20px;margin-bottom:15px;font-weight:600}
+    .scotiabank-logo{position:absolute;top:20px;right:20px;width:150px;height:40px;background:#EC0000;color:#fff;
+        display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:5px}
+
+    /* --- LAYERED VISUAL (Slide 1) --- */
+    .layered-visual{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px;position:relative}
+    .layer-card{border-radius:16px;padding:20px;background:#f7f9fc;border:2px solid #e7eef8}
+    .layer-title{font-weight:800;color:#1e3c72;margin-bottom:8px}
+    .chip{display:inline-block;background:#ecf2ff;color:#2a5298;border:1px solid #cad9ff;border-radius:999px;
+        padding:6px 10px;font-size:14px;margin:6px 6px 0 0}
+    .layer-connector{position:absolute;left:0;right:0;pointer-events:none}
+    .connector-1-2{top:39%}
+    .connector-2-3{top:74%}
+    .connector-arrow{width:100%;height:0;border-top:2px dashed #EC0000;position:relative}
+    .connector-arrow::after{content:"▼";position:absolute;right:10px;top:-14px;color:#EC0000;font-size:14px}
+
+    /* Cards, grids, boxes */
+    .definition-box{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:25px;border-radius:15px;margin:20px 0;font-size:18px;box-shadow:0 10px 30px rgba(102,126,234,.3)}
+    .two-column{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:30px 0}
+    .opportunity-box,.risk-box{padding:25px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1)}
+    .opportunity-box{background:linear-gradient(135deg,#84fab0 0%,#8fd3f4 100%)}
+    .risk-box{background:linear-gradient(135deg,#ffeaa7 0%,#fdcb6e 100%)}
+    .list-item{display:flex;align-items:flex-start;margin-bottom:12px;font-size:16px}
+    .list-icon{width:24px;height:24px;margin-right:12px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+    .opportunity-box .list-icon{background:#00b894}.risk-box .list-icon{background:#e17055}
+
+    .use-case{background:#f0f3f7;border-left:5px solid #EC0000;padding:20px;border-radius:10px;margin-top:20px}
+    .mini-caption{font-size:12px;color:#6b7a99;margin-top:6px}
+
+    /* Bank example cards */
+    .bank-examples{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:30px 0}
+    .bank-card{background:#f8f9fa;padding:20px;border-radius:15px;text-align:center;border:2px solid #e0e0e0;transition:all .3s ease}
+    .bank-card:hover{border-color:#EC0000;transform:translateY(-3px)}
+    .bank-logo{width:60px;height:60px;background:#2a5298;border-radius:10px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px}
+
+    /* Cost grid */
+    .cost-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;background:#f0f3f7;padding:25px;border-radius:15px;margin-top:20px}
+    .cost-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#fff;border-radius:10px}
+    .cost-label{font-weight:600;color:#2a5298}.cost-value{font-weight:700;color:#EC0000;font-size:18px}
+
+    /* Navigation */
+    .navigation{display:flex;justify-content:center;gap:20px;padding:30px;background:#f8f9fa}
+    .nav-btn{padding:12px 30px;background:#EC0000;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer;transition:all .3s ease}
+    .nav-btn:hover{background:#8B0000;transform:translateY(-2px)}
+    .slide-indicator{display:flex;justify-content:center;gap:10px;margin-top:20px}
+    .dot{width:12px;height:12px;border-radius:50%;background:#ccc;transition:all .3s ease}
+    .dot.active{background:#EC0000;width:30px;border-radius:6px}
+
+    /* Simple rail diagram (Slide 2) */
+    .rail-diagram{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}
+    .rail{background:#fff;border:1px solid #e2e6ee;border-radius:12px;padding:16px}
+    .rail h4{color:#1e3c72;margin-bottom:8px}
+    .rail-step{display:flex;align-items:center;margin:8px 0}
+    .rail-step .bullet{width:22px;height:22px;border-radius:50%;background:#EC0000;color:#fff;
+        display:flex;align-items:center;justify-content:center;font-size:12px;margin-right:10px}
+
+    /* Phase cards */
+    .phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:30px 0}
+    .phase-card{background:#fff;border-radius:15px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,.1);border-top:4px solid #EC0000}
+
+    /* Recommendation box */
+    .recommendation-box{background:linear-gradient(135deg,#EC0000 0%,#8B0000 100%);color:#fff;padding:30px;border-radius:15px;text-align:center;margin:30px 0;box-shadow:0 10px 40px rgba(236,0,0,.3)}
+    .recommendation-box h3{color:#fff;font-size:28px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="presentation-container">
+    <div class="scotiabank-logo">Scotiabank</div>
+
+    <!-- Slide 1: Digital Banking Evolution (Layered) -->
+    <div class="slide active">
+        <div class="slide-header">
+            <h1>Digital Banking Evolution</h1>
+            <h2>Layered View & How It Connects</h2>
+        </div>
+
+        <!-- New layered layout -->
+        <div class="layered-visual">
+            <!-- Layer 1 -->
+            <div class="layer-card">
+                <div class="layer-title">Layer 1: Infrastructure</div>
+                <div class="chip">Blockchain (Public/Private)</div>
+                <div class="chip">Ethereum / Base</div>
+                <div class="chip">Permissioned Chains</div>
+                <p class="mini-caption">Foundational settlement & data layer</p>
+            </div>
+
+            <!-- Layer 2 -->
+            <div class="layer-card">
+                <div class="layer-title">Layer 2: Protocol</div>
+                <div class="chip">Smart Contracts</div>
+                <div class="chip">Token Standards (ERC-20)</div>
+                <p class="mini-caption">Programmability, rules & automation</p>
+            </div>
+
+            <!-- Layer 3 -->
+            <div class="layer-card">
+                <div class="layer-title">Layer 3: Application</div>
+                <div class="chip">Stablecoins</div>
+                <div class="chip">Tokenized Deposits</div>
+                <p class="mini-caption">End-user value: payments, treasury, settlement</p>
+            </div>
+
+            <!-- Connectors -->
+            <div class="layer-connector connector-1-2"><div class="connector-arrow"></div></div>
+            <div class="layer-connector connector-2-3"><div class="connector-arrow"></div></div>
+        </div>
+
+        <!-- Tech stack recap -->
+        <div style="margin-top:28px;padding:20px;background:#f0f3f7;border-radius:15px">
+            <h3 style="text-align:center;margin-bottom:10px;">What Follows</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center">
+                <div><strong>Slide 2 → Stablecoins</strong><br/>Layer 3 Application (runs on L1 + L2)</div>
+                <div><strong>Slide 3 → Tokenized Deposits</strong><br/>Layer 3 Application (bank-issued)</div>
+                <div><strong>Slide 4 → Strategy</strong><br/>Adoption stance & roadmap</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Stablecoins -->
+    <div class="slide">
+        <div class="slide-header">
+            <h1>Stable Coins</h1>
+            <h2>Digital Dollars in the Wild</h2>
+        </div>
+
+        <div class="definition-box">
+            <strong>Definition:</strong> Privately-issued digital tokens pegged 1:1 to fiat currency, backed by reserves. Stability enables payments & settlement use cases across public and private chains.
+        </div>
+
+        <div class="two-column">
+            <div class="opportunity-box">
+                <h3>🚀 Opportunities</h3>
+                <div class="list-item">
+                    <div class="list-icon">✓</div>
+                    <div><strong>24/7 instant global payments</strong><br/>No banking hours; programmable settlement windows.</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">✓</div>
+                    <div><strong>Fee economics</strong><br/>Typical L2 network fees often well under $0.01–$0.10; processors (e.g., Coinbase Commerce) charge ~1%—a margin opportunity vs. SWIFT wires.</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">✓</div>
+                    <div><strong>Programmable money</strong><br/>Escrow, milestone releases, automated compliance events.</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">✓</div>
+                    <div><strong>Deposit retention</strong><br/>Keep flows “on-us” via bank-managed stablecoin rails and on/off-ramps, reducing leakage to third-party remitters.</div>
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <h3>⚠️ Risks</h3>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Run/peg risk</strong><br/>Confidence, reserves quality & disclosures.</div></div>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Regulatory flux</strong><br/>Rules differ by market; perimeter is evolving.</div></div>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Operational</strong><br/>Key custody, contract risk, vendor concentration.</div></div>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>No deposit insurance</strong><br/>Unlike insured bank deposits.</div></div>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h3>💡 Updated Use Case: Digital Transfers for Canadians</h3>
+            <p><strong>Observation:</strong> Not all major Canadian banks allow customers to initiate <em>wires</em> digitally—some require branch visits. Digital “international money transfer” options often rely on third-party networks (e.g., Visa Direct, Western Union), with multi-day settlement and opaque routing.</p>
+            <p><strong>Stablecoin Alternative:</strong> Bank-led on/off-ramp + stablecoin rails (USDC/PYUSD/etc.) enabling near-instant, low-fee transfers, transparent tracking, and programmable receivables.</p>
+            <ul style="margin-top:8px;padding-left:20px">
+                <li><strong>Today’s rails:</strong> Banks frequently partner with centralized intermediaries (e.g., Western Union, Visa Direct; Wise as an alternative) — adding black-box routing and fees.</li>
+                <li><strong>Fee model signals:</strong> Network costs can be cents or fractions thereof; crypto processors commonly charge about <strong>1%</strong> (sometimes plus a tiny fixed fee), allowing banks to price below wires yet capture more margin.</li>
+                <li><strong>Deposit retention:</strong> Faster in-app settlement + competitive pricing encourages customers to keep funds within Scotiabank, lifting balances and cross-sell touchpoints.</li>
+            </ul>
+
+            <!-- Rail diagram -->
+            <div class="rail-diagram">
+                <div class="rail">
+                    <h4>Traditional Rails (Wire / Vendor)</h4>
+                    <div class="rail-step"><div class="bullet">1</div><div>Customer → Bank (initiation; often branch or limited online)</div></div>
+                    <div class="rail-step"><div class="bullet">2</div><div>Bank → Intermediary/Vendor (e.g., Western Union / Visa Direct / Correspondent)</div></div>
+                    <div class="rail-step"><div class="bullet">3</div><div>Correspondent chain (SWIFT messaging, cut-offs, FX spreads)</div></div>
+                    <div class="rail-step"><div class="bullet">4</div><div>Recipient bank posts funds (T+0–5; variable fees)</div></div>
+                </div>
+                <div class="rail">
+                    <h4>Stablecoin Rails (Bank-Facilitated)</h4>
+                    <div class="rail-step"><div class="bullet">1</div><div>Customer → Bank app (KYC’d wallet / off-ramp)</div></div>
+                    <div class="rail-step"><div class="bullet">2</div><div>Tokenize funds to stablecoin (1:1)</div></div>
+                    <div class="rail-step"><div class="bullet">3</div><div>On-chain transfer (seconds; low network fee)</div></div>
+                    <div class="rail-step"><div class="bullet">4</div><div>Recipient off-ramps to local currency (bank/partner)</div></div>
+                </div>
+            </div>
+            <div class="mini-caption">Illustrative only; exact flows depend on corridor, partners, and compliance requirements.</div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Tokenized Deposits -->
+    <div class="slide">
+        <div class="slide-header">
+            <h1>Tokenized Deposits</h1>
+            <h2>Banking’s Digital Evolution (Live Examples)</h2>
+        </div>
+
+        <div class="definition-box">
+            <strong>Definition:</strong> Bank-issued, on-chain representations of deposits (1:1), operating within a regulated perimeter. Enable instant, 24/7 transfers across bank-controlled wallets with deposit insurance eligibility preserved (jurisdiction-dependent).
+        </div>
+
+        <div class="two-column">
+            <div class="opportunity-box">
+                <h3>🏦 Opportunities (Refreshed)</h3>
+                <div class="list-item"><div class="list-icon">✓</div><div><strong>Always-on treasury</strong><br/>24/7 wallet-to-wallet moves across participating bank locations (e.g., HKD/USD).</div></div>
+                <div class="list-item"><div class="list-icon">✓</div><div><strong>Operational savings</strong><br/>Real-time settlement reduces reconciliation & fails; automatable via smart contracts.</div></div>
+                <div class="list-item"><div class="list-icon">✓</div><div><strong>Programmable controls</strong><br/>Limits, allow-lists, escrow, and conditional flows embedded by the bank.</div></div>
+                <div class="list-item"><div class="list-icon">✓</div><div><strong>Client stickiness</strong><br/>Bring corporate liquidity “on-us” with faster sweeps and intra-group mobility.</div></div>
+            </div>
+
+            <div class="risk-box">
+                <h3>🔧 Challenges</h3>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Integration</strong><br/>Bridging legacy cores, ledgers, ERP connectors, and custody.</div></div>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Interoperability</strong><br/>Bank networks vs public chains; cross-bank standards still maturing.</div></div>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Regulatory perimeter</strong><br/>Varies by market; clarity improving but uneven.</div></div>
+                <div class="list-item"><div class="list-icon">!</div><div><strong>Operational control</strong><br/>Key management, incident response, and vendor risk.</div></div>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h3>💡 Real-World Update: HSBC Tokenised Deposit Service</h3>
+            <p><strong>Service:</strong> Converts deposits 1:1 into digital tokens for <em>real-time, 24/7</em> wallet-to-wallet transfers within HSBC’s network (initially HKD & USD), giving treasury full visibility and control.</p>
+            <p><strong>Client Story:</strong> Ant International cited publicly as first user in Hong Kong—demonstrating practical corporate cash mobility.</p>
+            <p><strong>So What for Scotia?</strong> Similar “on-us” corporate mobility across Canada/LATAM entities: instant notional pooling, rapid intercompany settlement, and programmable controls (cut-offs, limits).</p>
+        </div>
+    </div>
+
+    <!-- Slide 4: Strategic Recommendations -->
+    <div class="slide">
+        <div class="slide-header">
+            <h1>Strategic Recommendations for Scotiabank</h1>
+            <h2>Adopt? <span style="color:#0a8f08">YES</span> — <span style="color:#ffb703">But with Caution</span></h2>
+        </div>
+
+        <div class="recommendation-box">
+            <h3>Why Now</h3>
+            <div style="font-size:20px;margin-top:6px">
+                Japan momentum (tokenised deposits & yen-stablecoins), live bank deployments (HSBC), and client demand for 24/7 settlement create a near-term window—if risk is tightly managed.
+            </div>
+        </div>
+
+        <div class="phases-grid">
+            <div class="phase-card">
+                <h3>Phase 1 (Q4 2025)</h3>
+                <p><strong>Institutional Pilot</strong></p>
+                <ul style="margin-top:10px;padding-left:20px">
+                    <li>Tokenized-deposit pilot for top corporate clients; “on-us” corridors first.</li>
+                    <li>Stablecoin on/off-ramp for select remittance corridors with strict controls.</li>
+                    <li>KPIs: settlement time, fail rate, client NPS, fee margin capture.</li>
+                </ul>
+            </div>
+            <div class="phase-card">
+                <h3>Phase 2 (2026)</h3>
+                <p><strong>Cross-Border Expansion</strong></p>
+                <ul style="margin-top:10px;padding-left:20px">
+                    <li>Open additional LATAM corridors; interop with trusted bank networks.</li>
+                    <li>Selective public-chain usage with whitelists & travel-rule compliance.</li>
+                    <li>KPIs: daily volume, liquidity savings, operational cost per payment.</li>
+                </ul>
+            </div>
+            <div class="phase-card">
+                <h3>Phase 3 (2027)</h3>
+                <p><strong>Retail Integration</strong></p>
+                <ul style="margin-top:10px;padding-left:20px">
+                    <li>Consumer tokenized accounts & instant P2P.</li>
+                    <li>In-app remittance using stablecoin rails with guaranteed FX.</li>
+                    <li>Target: 1M+ users; measurable deposit lift from retention.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 style="margin-top:20px">Market Signals (2024–2025)</h3>
+        <div class="bank-examples">
+            <div class="bank-card">
+                <div class="bank-logo">HSBC</div>
+                <h4>Tokenised Deposits (Live)</h4>
+                <p style="font-size:14px;margin-top:10px"><strong>24/7 HKD/USD</strong><br/>Wallet-to-wallet in-network; Ant International as first user.</p>
+            </div>
+            <div class="bank-card">
+                <div class="bank-logo">SBI</div>
+                <h4>SBI Shinsei (Planned)</h4>
+                <p style="font-size:14px;margin-top:10px"><strong>Tokenised cross-border</strong><br/>With DCJPY & Partior for corporate clients.</p>
+            </div>
+            <div class="bank-card">
+                <div class="bank-logo">JP¥</div>
+                <h4>Japan FSA</h4>
+                <p style="font-size:14px;margin-top:10px"><strong>Yen-stablecoin path</strong><br/>First domestic yen-backed approvals expected—policy shift.</p>
+            </div>
+        </div>
+
+        <h3>Investment & Risk Guardrails</h3>
+        <div class="cost-grid">
+            <div class="cost-item"><span class="cost-label">Initial Infrastructure</span><span class="cost-value">$10–15M</span></div>
+            <div class="cost-item"><span class="cost-label">Annual Operating</span><span class="cost-value">$3–5M</span></div>
+            <div class="cost-item"><span class="cost-label">Settlement Cost Reduction</span><span class="cost-value">Up to ~85%</span></div>
+            <div class="cost-item"><span class="cost-label">Break-Even</span><span class="cost-value">18–24 months</span></div>
+        </div>
+
+        <div style="background:#f0f3f7;padding:20px;border-radius:15px;margin-top:20px">
+            <h3 style="text-align:center;color:#EC0000">Key Success Factors / Cautions</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:15px;text-align:center">
+                <div>🔒 <strong>Regulatory Alignment</strong><br/>OSFI & BoC engagement; permitted assets & disclosures.</div>
+                <div>🤝 <strong>Network Strategy</strong><br/>Prefer bank-grade networks first; public-chain access via whitelists.</div>
+                <div>📊 <strong>Risk Controls</strong><br/>Hot/cold key segregation, circuit-breakers, reserve attestations.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="changeSlide(-1)">← Previous</button>
+        <div class="slide-indicator">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <button class="nav-btn" onclick="changeSlide(1)">Next →</button>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(n){
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = (n + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+    function changeSlide(direction){ showSlide(currentSlide + direction); }
+
+    document.addEventListener('keydown', e=>{
+        if(e.key==='ArrowLeft') changeSlide(-1);
+        if(e.key==='ArrowRight') changeSlide(1);
+    });
+    dots.forEach((dot,i)=>dot.addEventListener('click',()=>showSlide(i)));
+</script>
+</body>
+</html>
