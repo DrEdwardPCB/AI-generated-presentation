@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Banking Architecture – Retail/Management Briefing</title>
+  <style>
+    :root {
+      --brand-red:#C8102E; --brand-gold:#FFD100; --ink:#111; --muted:#6b7280; --bg:#f6f7fb;
+      --brick-blue:#1E3F72; --brick-green:#006A4E; --brick-purple:#5A1F5A;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Arial, Helvetica, sans-serif; margin:0; background:linear-gradient(135deg, #C8102E, #FFD100, #ffffff 70%); padding:20px;}
+    .presentation-container{max-width:1200px; margin:0 auto; background:#fff; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,.1); overflow:hidden}
+    .slide{min-height:620px; padding:40px; display:none; position:relative}
+    .slide.active{display:block}
+    .slide-header{background:linear-gradient(45deg, var(--brand-red), var(--brand-gold)); color:#fff; padding:22px; border-radius:16px; margin-bottom:28px; text-align:center}
+    .slide-header h1{margin:0; font-size:2.2em; text-shadow:2px 2px 3px rgba(0,0,0,.25)}
+    .slide-header h2{margin:.35rem 0 0; font-weight:500}
+
+    .row{display:flex; flex-wrap:wrap; gap:16px}
+    .card{flex:1 1 260px; border:2px solid var(--brand-red); border-radius:14px; padding:16px; box-shadow:0 6px 14px rgba(0,0,0,.07)}
+    .card h3{margin:.25rem 0 .5rem}
+    .muted{color:var(--muted)}
+
+    .lego-brick{background:var(--brand-red); color:#fff; border-radius:12px; padding:18px; margin:10px; display:inline-block; min-width:200px; text-align:center; font-weight:700; position:relative; box-shadow:0 8px 16px rgba(0,0,0,.2)}
+    .lego-brick:before{content:""; position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:30px; height:20px; background:inherit; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,.3)}
+    .lego-blue{background:var(--brick-blue)}
+    .lego-green{background:var(--brick-green)}
+    .lego-gold{background:var(--brand-gold); color:#000}
+    .lego-purple{background:var(--brick-purple)}
+
+    .architecture{display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:14px; margin:16px 0}
+    .component{border:3px solid var(--brand-red); border-radius:14px; padding:14px 18px; min-width:170px; text-align:center; background:#fff; box-shadow:0 4px 8px rgba(0,0,0,.08)}
+    .arrow{font-size:1.8rem; color:var(--brand-red); margin:0 10px}
+
+    .placeholder-image{width:100%; height:220px; background:repeating-linear-gradient(45deg, #f1f1f1, #f1f1f1 12px, #e3e3e3 12px, #e3e3e3 24px); border:2px dashed #cfcfcf; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#666; font-style:italic; margin:14px 0}
+
+    .list{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px}
+    .list .item{border:1px solid #eee; border-radius:12px; padding:14px; background:#fafafa}
+
+    .compare{width:100%; border-collapse:collapse; margin-top:14px; box-shadow:0 4px 8px rgba(0,0,0,.06); overflow:hidden; border-radius:12px}
+    .compare th{background:var(--brand-red); color:#fff; text-align:left; padding:12px}
+    .compare td{padding:12px; border-bottom:1px solid #f0f0f0}
+    .compare tr:nth-child(even){background:#fbfbfb}
+
+    .note{background:#fff8d6; border-left:6px solid var(--brand-gold); padding:14px; border-radius:10px}
+
+    .navigation{background:#2c3e50; padding:18px; text-align:center}
+    .nav-btn{background:var(--brand-red); color:#fff; border:none; padding:11px 22px; margin:0 6px; border-radius:24px; cursor:pointer; font-size:15px}
+    .nav-btn:hover{background:#a00e28}
+    .nav-btn.active{background:var(--brand-gold); color:#000}
+
+    .footer{position:absolute; bottom:12px; right:18px; color:#999; font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="presentation-container">
+
+    <!-- 1. Title -->
+    <section class="slide active">
+      <div class="slide-header">
+        <h1>Architecture of Core Banking</h1>
+        <h2>Retail & Management Briefing</h2>
+      </div>
+      <div class="placeholder-image">[TITLE VISUAL: Simplified bank + layers as LEGO bricks]</div>
+      <div style="text-align:center; margin-top:24px">
+        <span class="lego-brick">Core Banking</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-blue">API Layer</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-green">Data & Ops DB</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-gold">Reporting</span>
+      </div>
+      <div class="footer">Scotiabank – US focus, enterprise-ready</div>
+    </section>
+
+    <!-- 2. What is Core Banking? -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>What is Core Banking?</h1>
+        <h2>Plain‑English definition for business leaders</h2>
+      </div>
+      <div class="row">
+        <div class="card"><h3>System of Record</h3><p class="muted">Houses customer & account data (CIF), balances, product setups.</p></div>
+        <div class="card"><h3>Daily Processing</h3><p class="muted">Posts transactions, calculates interest & fees, applies product rules.</p></div>
+        <div class="card"><h3>Operational Controls</h3><p class="muted">End‑of‑day, reconciliations, status & exception handling.</p></div>
+        <div class="card"><h3>Financial & Reporting</h3><p class="muted">Generates ledgers, statements, and daily activity reports.</p></div>
+      </div>
+    </section>
+
+    <!-- 3. Scope of Core Banking -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Scope of Core Banking</h1>
+        <h2>What it must do consistently and at scale</h2>
+      </div>
+      <div class="list">
+        <div class="item"><strong>Customer & Account Housing</strong><br/><span class="muted">Single source of truth for customers, accounts, products.</span></div>
+        <div class="item"><strong>Interest & Fee Calculations</strong><br/><span class="muted">Accruals, postings, back‑dated adjustments.</span></div>
+        <div class="item"><strong>Daily Activity Reporting</strong><br/><span class="muted">Statements, activity, exception & audit logs.</span></div>
+        <div class="item"><strong>Financial Functions</strong><br/><span class="muted">General ledger feeds, settlements, reconciliations.</span></div>
+      </div>
+    </section>
+
+    <!-- 4. Our Current Position & API Layer -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Today in the US</h1>
+        <h2>Out‑of‑the‑box core works well — not yet integrated</h2>
+      </div>
+      <div class="note"><strong>Context:</strong> Many cores exist in market. We currently operate one OOTB core in the US that performs the core functions perfectly — but <em>without native integration</em> to Scotiabank enterprise infrastructure.</div>
+      <div class="architecture">
+        <div class="component"><h3>Upstream Channels</h3><div class="muted">Digital, Branch, Ops</div></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><h3>API Layer (Wrapper)</h3><div class="muted">Standardize, validate, log</div></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><h3>Core System</h3><div class="muted">OOTB – performs core duties</div></div>
+      </div>
+      <p class="muted">The API Layer enables upstream services to interface with the core using bank‑standard patterns.</p>
+    </section>
+
+    <!-- 5. Data, Ops DB & Reporting Layers -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Data, Operational Store & Reporting</h1>
+        <h2>Controlled data in / out of core</h2>
+      </div>
+      <div class="architecture">
+        <div class="component"><h3>Data Layer</h3><div class="muted">Ingestion & distribution of core I/O</div></div>
+        <span class="arrow">➜</span>
+        <div class="component"><h3>Operational Database</h3><div class="muted">Aggregates & consolidates operational core data</div></div>
+        <span class="arrow">➜</span>
+        <div class="component"><h3>Reporting Layer</h3><div class="muted">Reports powered by the Ops DB</div></div>
+      </div>
+      <div class="placeholder-image">[DIAGRAM PLACEHOLDER: Data ingress/egress → Ops DB → Reporting]</div>
+    </section>
+
+    <!-- 6. Holistic View – Core Agnostic -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Holistic High‑Level Diagram</h1>
+        <h2>Core can be anyone</h2>
+      </div>
+      <div class="architecture">
+        <div class="component"><strong>Channels</strong></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><strong>API Layer</strong><div class="muted">Bank‑standard façade</div></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><strong>Core (Any Vendor)</strong><div class="muted">Pluggable choice</div></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><strong>Data Layer</strong></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><strong>Operational DB</strong></div>
+        <span class="arrow">⬇️</span>
+        <div class="component"><strong>Reporting</strong></div>
+      </div>
+      <div class="note">This approach future‑proofs us: swap cores without re‑wiring channels and analytics.</div>
+    </section>
+
+    <!-- 7. Full Architecture – US uses Finacle -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Full Architecture</h1>
+        <h2>US core is <strong>Finacle</strong>; each layer offers "LEGO" services</h2>
+      </div>
+      <div class="placeholder-image">[DIAGRAM PLACEHOLDER: Layered stack with sample services per layer]</div>
+      <div style="text-align:center; margin:10px 0 0">
+        <span class="lego-brick">Channels</span>
+        <span class="lego-brick lego-blue">API Gateway / Wrapper</span>
+        <span class="lego-brick lego-green">Data Services</span>
+        <span class="lego-brick lego-purple">Operational DB</span>
+        <span class="lego-brick lego-gold">Reporting</span>
+        <span class="lego-brick">Core: Finacle (US)</span>
+      </div>
+      <p class="muted" style="margin-top:10px">Think LEGO box: pick only the services that meet business needs. We’re also building connectors to other Scotiabank cores for cross‑market reuse.</p>
+    </section>
+
+    <!-- 8. Use Case – Pricing & Billing -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Use Case: Pricing & Billing</h1>
+        <h2>From analytics to posting</h2>
+      </div>
+      <table class="compare">
+        <thead>
+          <tr><th>Step</th><th>Who/Layer</th><th>Action</th><th>Interfaces</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Pricing Analytics</td>
+            <td>Pricing Service</td>
+            <td>Queries user/account data; fetches <em>Data Blocks</em> from Operational Data layer; computes pricing; binds to pricing plan.</td>
+            <td>Data Layer → Ops DB</td>
+          </tr>
+          <tr>
+            <td>2. Plan Finalization</td>
+            <td>Pricing Service</td>
+            <td>Applies business rules and approval workflow.</td>
+            <td>API Layer (internal)</td>
+          </tr>
+          <tr>
+            <td>3. Billing Execution</td>
+            <td>Billing Service</td>
+            <td>Attaches account info; posts charges to core.</td>
+            <td><strong>Posting API</strong> (via API Layer)</td>
+          </tr>
+          <tr>
+            <td>4. Monitoring</td>
+            <td>Billing / Ops</td>
+            <td>Tracks posting outcomes and exceptions.</td>
+            <td><strong>TransactionStatus API</strong></td>
+          </tr>
+          <tr>
+            <td>5. Reporting</td>
+            <td>Reporting Layer</td>
+            <td>Generates pricing & billing performance reports from Ops DB.</td>
+            <td>Ops DB → Reports</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 9. Market Opportunities -->
+    <section class="slide">
+      <div class="slide-header">
+        <h1>Market Opportunities</h1>
+        <h2>Where this architecture drives value</h2>
+      </div>
+      <div class="row">
+        <div class="card"><h3>Faster Launches</h3><p class="muted">Reusable API + data patterns reduce time‑to‑market for new products.</p></div>
+        <div class="card"><h3>Core Flexibility</h3><p class="muted">Plug‑and‑play capability to adopt additional cores with minimal change.</p></div>
+        <div class="card"><h3>Analytics‑Ready</h3><p class="muted">Operational store enables pricing, risk, and customer insights.</p></div>
+        <div class="card"><h3>Stronger Controls</h3><p class="muted">Standard validation, logging, and monitoring across all flows.</p></div>
+      </div>
+      <div class="note" style="margin-top:16px"><strong>Bottom line:</strong> Standardized layers + core agnosticism = scalability across US today and other Scotiabank cores tomorrow.</div>
+    </section>
+
+  </div>
+
+  <!-- Navigation -->
+  <div class="navigation">
+    <button class="nav-btn active" onclick="showSlide(1)">1</button>
+    <button class="nav-btn" onclick="showSlide(2)">2</button>
+    <button class="nav-btn" onclick="showSlide(3)">3</button>
+    <button class="nav-btn" onclick="showSlide(4)">4</button>
+    <button class="nav-btn" onclick="showSlide(5)">5</button>
+    <button class="nav-btn" onclick="showSlide(6)">6</button>
+    <button class="nav-btn" onclick="showSlide(7)">7</button>
+    <button class="nav-btn" onclick="showSlide(8)">8</button>
+    <button class="nav-btn" onclick="showSlide(9)">9</button>
+    <span style="color: white; margin: 0 20px;">|</span>
+    <button class="nav-btn" onclick="prevSlide()">← Previous</button>
+    <button class="nav-btn" onclick="nextSlide()">Next →</button>
+  </div>
+
+  <script>
+    let currentSlide = 1; const totalSlides = 9;
+    function showSlide(n){
+      document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+      document.querySelectorAll('.slide')[n-1].classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+      if(n<=totalSlides) document.querySelectorAll('.nav-btn')[n-1].classList.add('active');
+      currentSlide = n;
+    }
+    function nextSlide(){ if(currentSlide<totalSlides) showSlide(currentSlide+1); }
+    function prevSlide(){ if(currentSlide>1) showSlide(currentSlide-1); }
+    document.addEventListener('keydown', e=>{ if(e.key==='ArrowRight') nextSlide(); if(e.key==='ArrowLeft') prevSlide(); });
+  </script>
+</body>
+</html>
