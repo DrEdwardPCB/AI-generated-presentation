@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Stablecoins & Tokenized Deposits — Scotiabank Executive Presentation</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    background:linear-gradient(135deg,#1e3c72 0%,#2a5298 100%);
+    min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px
+  }
+  .presentation-container{width:100%;max-width:1200px;background:#fff;border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;position:relative}
+  .scotiabank-logo{position:absolute;top:20px;right:20px;width:150px;height:40px;background:#EC0000;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:5px}
+  .slide{width:100%;min-height:700px;padding:60px;display:none;animation:slideIn .5s ease-in-out}
+  .slide.active{display:block}
+  @keyframes slideIn{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+  .slide-header{text-align:center;margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid #EC0000}
+  h1{color:#1e3c72;font-size:36px;font-weight:700;margin-bottom:10px}
+  h2{color:#EC0000;font-size:28px;margin-bottom:20px;font-weight:600}
+  h3{color:#2a5298;font-size:20px;margin-bottom:12px;font-weight:600}
+  p{color:#1a2a44}
+
+  /* chips, boxes, grids */
+  .chip{display:inline-block;background:#ecf2ff;color:#2a5298;border:1px solid #cad9ff;border-radius:999px;
+    padding:6px 10px;font-size:14px;margin:6px 6px 0 0}
+  .news-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+  .card{background:#f7f9fc;border:1px solid #e7eef8;border-radius:14px;padding:18px}
+  .list{margin-top:8px}
+  .list li{margin:8px 0 0 18px}
+  .definition-box{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:22px;border-radius:14px;margin:18px 0}
+  .two-column{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:26px 0}
+  .opportunity-box,.risk-box{padding:22px;border-radius:14px;box-shadow:0 5px 20px rgba(0,0,0,.08)}
+  .opportunity-box{background:linear-gradient(135deg,#84fab0 0%,#8fd3f4 100%)}
+  .risk-box{background:linear-gradient(135deg,#ffeaa7 0%,#fdcb6e 100%)}
+  .list-row{display:flex;align-items:flex-start;margin:8px 0}
+  .badge{min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-right:10px}
+  .badge.ok{background:#00b894}.badge.warn{background:#e17055}
+
+  /* Layered explainer (Slide 2) */
+  .layers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+  .layer{background:#fbfcff;border:2px solid #e7eef8;border-radius:14px;padding:16px}
+  .layer .title{font-weight:800;color:#1e3c72;margin-bottom:6px}
+  .mini{font-size:12px;color:#6b7a99}
+
+  /* Simple icon circles */
+  .icon-circle{
+    width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:22px;font-weight:700;margin-right:10px;flex-shrink:0
+  }
+  .term{display:flex;align-items:center;margin-top:8px}
+
+  /* Bank example cards (Slide 1 section) */
+  .bank-examples{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:14px 0 0}
+  .bank-card{background:#f8f9fa;padding:20px;border-radius:15px;text-align:center;border:2px solid #e0e0e0;transition:all .3s ease}
+  .bank-card:hover{border-color:#EC0000;transform:translateY(-3px)}
+  .bank-logo{width:60px;height:60px;background:#2a5298;border-radius:10px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px}
+
+  /* Compare table / rails (Slide 3) */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px}
+  .compare .head{font-weight:800;margin-bottom:6px}
+  .compare .good{color:#0a8f08}.compare .risk{color:#b00020}
+  .mini-rails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  .rail{background:#fff;border:1px solid #e2e6ee;border-radius:12px;padding:16px}
+  .rail h4{color:#1e3c72;margin-bottom:8px}
+  .rail-step{display:flex;align-items:center;margin:8px 0}
+  .rail-step .bullet{width:22px;height:22px;border-radius:50%;background:#EC0000;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:12px;margin-right:10px}
+
+  /* Recommendation / conclusion */
+  .recommendation{background:linear-gradient(135deg,#EC0000 0%,#8B0000 100%);color:#fff;padding:28px;border-radius:16px;text-align:center;margin:26px 0;box-shadow:0 10px 40px rgba(236,0,0,.25)}
+  .phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:18px 0}
+  .phase{background:#fff;border-radius:14px;padding:16px;border-top:4px solid #EC0000;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+
+  /* Navigation */
+  .navigation{display:flex;justify-content:center;gap:20px;padding:28px;background:#f8f9fa}
+  .nav-btn{padding:12px 30px;background:#EC0000;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer;transition:all .3s ease}
+  .nav-btn:hover{background:#8B0000;transform:translateY(-2px)}
+  .slide-indicator{display:flex;justify-content:center;gap:10px;margin-top:14px}
+  .dot{width:12px;height:12px;border-radius:50%;background:#ccc;transition:all .3s ease}
+  .dot.active{background:#EC0000;width:30px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="presentation-container">
+  <div class="scotiabank-logo">Scotiabank</div>
+
+  <!-- SLIDE 1: Why This Presentation -->
+  <div class="slide active">
+    <div class="slide-header">
+      <h1>Why This Presentation</h1>
+      <h2>Headlines, Client Questions, and Our Needed Stance</h2>
+    </div>
+
+    <div class="news-grid">
+      <div class="card">
+        <h3>Market Signals</h3>
+        <div class="chip">Banks go 24/7</div>
+        <div class="chip">Tokenised deposits</div>
+        <div class="chip">Stablecoin policy shifts</div>
+        <ul class="list">
+          <li>Global peers pilot/launch tokenised deposits for treasury mobility.</li>
+          <li>Jurisdictions signal openness to fiat-backed digital money under regulation.</li>
+          <li>Corporate treasurers ask for instant, programmable cash movement.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What We Hear Internally</h3>
+        <ul class="list">
+          <li>“What’s Scotiabank’s position on stablecoins vs tokenized deposits?”</li>
+          <li>“Can we offer cheaper, faster cross-border without losing deposits off-platform?”</li>
+          <li>“How do we enhance liquidity products and keep money within Scotiabank?”</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Objective today:</strong> Align on terminology, risks & opportunities, and a pragmatic adoption path that supports liquidity enhancement and deposit retention.</p>
+      </div>
+    </div>
+
+    <!-- NEW: Market Signals (cards) -->
+    <h3 style="margin-top:20px">Market Signals (2024–2025)</h3>
+    <div class="bank-examples">
+      <div class="bank-card">
+        <div class="bank-logo">HSBC</div>
+        <h4>Tokenised Deposits (Live)</h4>
+        <p style="font-size:14px;margin-top:10px"><strong>24/7 HKD/USD</strong><br/>Wallet-to-wallet in-network; Ant International as first user.</p>
+      </div>
+      <div class="bank-card">
+        <div class="bank-logo">SBI</div>
+        <h4>SBI Shinsei (Planned)</h4>
+        <p style="font-size:14px;margin-top:10px"><strong>Tokenised cross-border</strong><br/>With DCJPY & Partior for corporate clients.</p>
+      </div>
+      <div class="bank-card">
+        <div class="bank-logo">JP¥</div>
+        <h4>Japan FSA</h4>
+        <p style="font-size:14px;margin-top:10px"><strong>Yen-stablecoin path</strong><br/>First domestic yen-backed approvals expected—policy shift.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Simple Terminology (with Layers + Icons) -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1>Key Terms — Simple & Layered</h1>
+      <h2>Understand the Stack Before the Strategy</h2>
+    </div>
+
+    <div class="layers">
+      <div class="layer">
+        <div class="title">Layer 1: Infrastructure</div>
+        <div class="term"><div class="icon-circle">⛓️</div><div><strong>Blockchain</strong> — a shared ledger that tracks balances & transfers. Think of it as the “railway tracks.”</div></div>
+        <p class="mini" style="margin-left:54px">Examples: Ethereum, permissioned chains</p>
+      </div>
+      <div class="layer">
+        <div class="title">Layer 2: Protocol</div>
+        <div class="term"><div class="icon-circle">⚙️</div><div><strong>Smart Contracts</strong> — code that runs on the blockchain to enforce rules automatically. “The signals & switches.”</div></div>
+        <p class="mini" style="margin-left:54px">Token standards (e.g., ERC-20) live here</p>
+      </div>
+      <div class="layer">
+        <div class="title">Layer 3: Application</div>
+        <div class="term"><div class="icon-circle">💲</div><div><strong>Stablecoins</strong> — digital tokens pegged to fiat. Public-chain instruments; price-stable but outside deposit insurance.</div></div>
+        <div class="term" style="margin-top:6px"><div class="icon-circle">🏦</div><div><strong>Tokenized Deposits</strong> — bank-issued, 1:1 on-chain representations of deposits, within regulatory perimeter; integrates with bank systems.</div></div>
+        <p class="mini" style="margin-left:54px">End-user value: payments, treasury, settlement</p>
+      </div>
+    </div>
+
+    <div class="definition-box">
+      <strong>In short:</strong> L1 = the tracks, L2 = the rules, L3 = the services customers feel. Our strategy choices live at <strong>Layer 3</strong>.
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Opportunities & Risks (plus simple comparison use case) -->
+    <div class="slide">
+    <div class="slide-header">
+      <h1>Opportunities & Challenges</h1>
+      <h2>Stablecoins vs Tokenized Deposits — Our View</h2>
+    </div>
+
+    <div class="definition-box" style="background:linear-gradient(135deg,#5fb878 0%,#2bb673 100%)">
+      <strong>Positioning:</strong> <u>Stablecoins</u> are primarily a <strong>central bank/sovereign</strong> domain or to be used via highly regulated partners. <u>Scotiabank’s focus</u>: <strong>Tokenized Deposits</strong> to enhance liquidity and keep funds within the bank.
+    </div>
+
+    <div class="compare">
+      <div class="card">
+        <div class="head">Stablecoins (Layer 3 — public-chain token)</div>
+        <div class="list-row"><span class="badge ok">✓</span><div><strong>Opportunities:</strong> 24/7 transfers; global reach; programmable.</div></div>
+        <div class="list-row"><span class="badge ok">✓</span><div>Low base network fees; potential for new fee models.</div></div>
+        <div class="list-row"><span class="badge warn">!</span><div><strong>Challenges:</strong> No deposit insurance; reserve/peg risks; evolving regulation.</div></div>
+        <div class="list-row"><span class="badge warn">!</span><div>Off-platform leakage (funds moving to external wallets/exchanges).</div></div>
+      </div>
+
+      <div class="card">
+        <div class="head">Tokenized Deposits (Layer 3 — bank-issued)</div>
+        <div class="list-row"><span class="badge ok">✓</span><div><strong>Opportunities:</strong> Inside bank perimeter; deposit insurance eligibility (jurisdiction-dependent).</div></div>
+        <div class="list-row"><span class="badge ok">✓</span><div>24/7 “on-us” wallet-to-wallet settlement; programmable controls.</div></div>
+        <div class="list-row"><span class="badge ok">✓</span><div>Enhances liquidity: sweeps, pooling, intercompany transfers.</div></div>
+        <div class="list-row"><span class="badge warn">!</span><div><strong>Challenges:</strong> Integration & interop; custody & key management operations.</div></div>
+      </div>
+    </div>
+
+    <!-- Simple comparison use case -->
+    <div class="mini-rails">
+      <div class="rail">
+        <h4>Traditional Deposit Use Case (Intra-company transfer)</h4>
+        <div class="rail-step"><div class="bullet">1</div><div>Move request hits core banking; queued for next window.</div></div>
+        <div class="rail-step"><div class="bullet">2</div><div>Cut-offs/cycle times; reconciliation next day.</div></div>
+        <div class="rail-step"><div class="bullet">3</div><div>T+0–1 posting; limited programmability.</div></div>
+      </div>
+      <div class="rail">
+        <h4>Tokenized Deposit Use Case (Intra-company transfer)</h4>
+        <div class="rail-step"><div class="bullet">1</div><div>Instant wallet-to-wallet “on-us” move (24/7).</div></div>
+        <div class="rail-step"><div class="bullet">2</div><div>Smart-contract controls (limits, allow-lists, approvals).</div></div>
+        <div class="rail-step"><div class="bullet">3</div><div>Immediate finality + real-time visibility for treasury.</div></div>
+      </div>
+    </div>
+    <p class="mini" style="margin-top:6px">Result: faster liquidity, fewer fails, and better deposit retention “on-us.”</p>
+
+    <!-- NEW: Where we win / What to control -->
+    <div class="two-column" style="margin-top:20px">
+      <div class="opportunity-box">
+        <h3>🚀 Where We Win</h3>
+        <div class="list-row"><span class="badge ok">✓</span><div>24/7 “on-us” settlement for corporates (treasury mobility).</div></div>
+        <div class="list-row"><span class="badge ok">✓</span><div>Programmable cash management (escrow, milestone payouts).</div></div>
+        <div class="list-row"><span class="badge ok">✓</span><div>Fee margin capture vs traditional wires while offering faster service.</div></div>
+        <div class="list-row"><span class="badge ok">✓</span><div>Deposit retention: keep flows in-app and in-bank, enabling cross-sell.</div></div>
+      </div>
+      <div class="risk-box">
+        <h3>⚠️ What to Control</h3>
+        <div class="list-row"><span class="badge warn">!</span><div>Strict governance (KYC/AML, travel rule, allow-lists, circuit breakers).</div></div>
+        <div class="list-row"><span class="badge warn">!</span><div>Key & wallet security; hot/cold segregation; incident runbooks.</div></div>
+        <div class="list-row"><span class="badge warn">!</span><div>Interoperability standards for cross-bank movement.</div></div>
+        <div class="list-row"><span class="badge warn">!</span><div>Clear disclosures & reserve attestations (for stablecoin interfacing).</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Conclusion & Focus -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1>Conclusion & Next Steps</h1>
+      <h2>Adopt? <span style="color:#0a8f08">YES</span> — <span style="color:#ffb703">With Caution</span> & a Tokenized-Deposit First Strategy</h2>
+    </div>
+
+    <div class="recommendation">
+      <h3>Strategic Emphasis</h3>
+      <p style="margin-top:8px;font-size:18px">Prioritize <strong>Tokenized Deposits</strong> to enhance liquidity products, create “on-us” 24/7 mobility, and <strong>retain deposits within Scotiabank</strong>. Use stablecoin rails only via tightly controlled, regulated partners/corridors where they demonstrably add value.</p>
+    </div>
+
+    <div class="phases-grid">
+      <div class="phase">
+        <h3>Phase 1 (Q4 2025)</h3>
+        <ul class="list">
+          <li>Institutional pilot: wallet-to-wallet tokenized deposits for top corporates.</li>
+          <li>KPIs: settlement time, fail rate, NPS, deposit retention, fee margin.</li>
+          <li>Risk controls: allow-lists, limits, automated monitoring.</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h3>Phase 2 (2026)</h3>
+        <ul class="list">
+          <li>Expand corridors (Canada ↔ LATAM) & ERP integrations.</li>
+          <li>Selective interop with bank networks; compliant public-chain access.</li>
+          <li>Liquidity products: real-time sweeps, pooling, programmable escrow.</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h3>Phase 3 (2027)</h3>
+        <ul class="list">
+          <li>Retail integration: instant P2P, in-app remittances with guarantees.</li>
+          <li>Scale deposit lift & cross-sell; enterprise-grade ops & resilience.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:8px">
+      <h3>Executive Takeaway</h3>
+      <ul class="list">
+        <li><strong>Yes to adoption</strong> — start with tokenized deposits where we can control risk and maximize client value.</li>
+        <li><strong>Goal:</strong> Liquidity enhancement & deposit retention; faster, cheaper, programmable value transfer “on-us.”</li>
+        <li><strong>Guardrails:</strong> Regulatory alignment, strong key management, real-time monitoring, staged interop.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="navigation">
+    <button class="nav-btn" onclick="changeSlide(-1)">← Previous</button>
+    <div class="slide-indicator">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <button class="nav-btn" onclick="changeSlide(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+  let currentSlide=0;
+  const slides=document.querySelectorAll('.slide');
+  const dots=document.querySelectorAll('.dot');
+
+  function showSlide(n){
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide=(n+slides.length)%slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+  function changeSlide(d){ showSlide(currentSlide+d); }
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft') changeSlide(-1);
+    if(e.key==='ArrowRight') changeSlide(1);
+  });
+  dots.forEach((dot,i)=>dot.addEventListener('click',()=>showSlide(i)));
+</script>
+</body>
+</html>
