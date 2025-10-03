@@ -297,7 +297,7 @@
     <button class="nav-btn" onclick="changeSlide(1)">Next →</button>
   </div>
 </div>
-
+<script src="../protectionScript/protect.js"></script>
 <script>
   let currentSlide=0;
   const slides=document.querySelectorAll('.slide');
@@ -317,6 +317,7 @@
     if(e.key==='ArrowRight') changeSlide(1);
   });
   dots.forEach((dot,i)=>dot.addEventListener('click',()=>showSlide(i)));
+  
 </script>
 </body>
 </html>
