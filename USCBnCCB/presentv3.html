@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Banking Architecture – Executive Summary</title>
+  <style>
+    body {font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:linear-gradient(135deg,#C8102E,#FFD100,#ffffff); padding:20px;}
+    .presentation-container {max-width: 1100px; margin: 0 auto; background: white; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); overflow: hidden;}
+    .slide {display:none; padding:60px; min-height:600px; text-align:center;}
+    .slide.active {display:block;}
+    .slide-header {background:linear-gradient(45deg,#C8102E,#FFD100); color:#fff; border-radius:16px; padding:25px; margin-bottom:30px;}
+    .slide-header h1 {margin:0; font-size:2.4em;}
+    h2 {color:#C8102E; margin-top:20px;}
+    p {font-size:1.1em; line-height:1.6; color:#333; max-width:850px; margin:0 auto 20px;}
+    ul {list-style:none; padding:0; max-width:850px; margin:30px auto; text-align:left;}
+    li {background:#f8f8f8; margin:10px 0; padding:14px 16px; border-left:5px solid #C8102E; border-radius:10px; font-size:1.05em; display:flex; align-items:center;}
+    li img.icon {width:36px; height:36px; margin-right:14px;}
+
+    .lego-brick {background:#C8102E; color:white; padding:10px 12px; border-radius:10px; display:inline-block; margin:4px; font-weight:bold; position:relative; font-size:0.85em; min-width:120px;}
+    .lego-yellow {background:#FFD100; color:#000;}
+    .lego-blue {background:#1E3F72;}
+    .arrow {font-size:1.1em; color:#C8102E; margin:0 3px; vertical-align:middle;}
+    .note {background:#fff8d6; border-left:6px solid #FFD100; padding:16px; margin:30px auto; border-radius:10px; max-width:800px;}
+    .placeholder-image {width:90%; height:220px; background:repeating-linear-gradient(45deg,#f1f1f1,#f1f1f1 12px,#e3e3e3 12px,#e3e3e3 24px); border:2px dashed #cfcfcf; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#666; font-style:italic; margin:30px auto;}
+
+    .capability-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin:30px auto; max-width:900px;}
+    .capability-card {background:linear-gradient(135deg,#C8102E 0%,#FFD100 100%); color:white; padding:20px; border-radius:16px; box-shadow:0 8px 16px rgba(0,0,0,0.2); text-align:left; transition:transform 0.3s ease;}
+    .capability-card:hover {transform:translateY(-4px);}
+    .capability-card h3 {margin-top:0; font-size:1.2em;}
+    .capability-card p {color:#fff; font-size:0.95em;}
+
+    .summary-container {display:flex; flex-direction:column; gap:30px;}
+    .recap-section {background:#f8f8f8; border-radius:14px; padding:25px 30px; box-shadow:0 6px 12px rgba(0,0,0,0.1); max-width:950px; margin:0 auto; text-align:left;}
+    .recap-section h2 {margin-top:0; color:#C8102E;}
+    .recap-section ul {margin-top:10px;}
+    .recap-section li {background:#fff; margin:8px 0; padding:10px 14px; border-left:5px solid #FFD100; border-radius:8px; font-size:1em; color:#333;}
+
+    .summary-hero {width:100%; height:220px; background:repeating-linear-gradient(135deg,#f2f2f2,#f2f2f2 15px,#e6e6e6 15px,#e6e6e6 30px); border:2px dashed #ccc; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#777; font-style:italic; margin:20px auto; max-width:900px;}
+
+    .summary-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; max-width:950px; margin:20px auto 0; text-align:center;}
+    .summary-card {background:white; border:2px solid #C8102E; border-radius:18px; padding:30px 20px; box-shadow:0 8px 16px rgba(0,0,0,0.1); transition:transform 0.3s ease;}
+    .summary-card:hover {transform:translateY(-6px);}
+    .summary-card h3 {color:#C8102E; font-size:1.4em; margin-bottom:10px;}
+    .summary-card p {color:#333; font-size:1em; line-height:1.5;}
+
+    .navigation {background:#2c3e50; text-align:center; padding:18px;}
+    .nav-btn {background:#C8102E; color:white; border:none; padding:10px 20px; margin:0 6px; border-radius:25px; cursor:pointer;}
+    .nav-btn.active {background:#FFD100; color:#000;}
+  </style>
+</head>
+<body>
+  <div class="presentation-container">
+
+    <!-- Slide 1: What is Core Banking -->
+    <div class="slide active">
+      <div class="slide-header"><h1>What is Core Banking?</h1></div>
+      <p>Core banking is the heart of the bank — the system that manages all products, customer accounts, and daily transactions.</p>
+      <div class="capability-grid">
+        <div class="capability-card"><h3>🏦 Account Management</h3><p>Houses and maintains customer savings, checking, and loan accounts.</p></div>
+        <div class="capability-card"><h3>💸 Transaction Processing</h3><p>Processes deposits, withdrawals, transfers, and payments in real time.</p></div>
+        <div class="capability-card"><h3>📈 Interest & Fees</h3><p>Automatically calculates interest, fees, and charges accurately.</p></div>
+        <div class="capability-card"><h3>📑 Compliance & Reporting</h3><p>Ensures regulatory compliance and generates internal/external reports.</p></div>
+        <div class="capability-card"><h3>🔗 Integration</h3><p>Connects with ATMs, mobile, and online banking channels.</p></div>
+        <div class="capability-card"><h3>🧾 Pricing & Billing</h3><p>Supports pricing analytics, charge posting, and billing management.</p></div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Core Banking Capabilities -->
+    <div class="slide">
+      <div class="slide-header"><h1>Core Banking Capabilities</h1></div>
+      <p>Core banking provides a consistent, reliable, and integrated foundation for every retail banking product and experience.</p>
+      <div class="capability-grid">
+        <div class="capability-card"><h3>⚙️ Unified Processing</h3><p>Real-time transaction flow across all channels and accounts.</p></div>
+        <div class="capability-card"><h3>📊 Data & Reporting</h3><p>Comprehensive insight and compliance reporting in one source.</p></div>
+        <div class="capability-card"><h3>💱 Product Flexibility</h3><p>Configurable products and pricing for fast go-to-market.</p></div>
+        <div class="capability-card"><h3>🔒 Security & Compliance</h3><p>Meets global standards and ensures risk controls across functions.</p></div>
+        <div class="capability-card"><h3>💡 Integration Layer</h3><p>Seamless API ecosystem to connect with Scotiabank infrastructure.</p></div>
+        <div class="capability-card"><h3>📈 Scalability</h3><p>Modular structure supports growth across markets and regions.</p></div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Architecture -->
+    <div class="slide">
+      <div class="slide-header"><h1>Architecture Behind Core Banking</h1></div>
+      <p>Each layer supports modular growth and flexibility — enabling integration, scalability, and innovation.</p>
+      <div style="display:flex; justify-content:center; align-items:center; flex-wrap:nowrap; gap:3px; margin-top:10px;">
+        <span class="lego-brick" style="font-size:0.8em; padding:6px 8px;">Channel Services</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-blue" style="font-size:0.8em; padding:6px 8px;">API Layer</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-yellow" style="font-size:0.8em; padding:6px 8px;">Core System</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-blue" style="font-size:0.8em; padding:6px 8px;">Data Layer</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick lego-yellow" style="font-size:0.8em; padding:6px 8px;">Operational DB</span>
+        <span class="arrow">➜</span>
+        <span class="lego-brick" style="font-size:0.8em; padding:6px 8px;">Reporting</span>
+      </div>
+      <div class="placeholder-image">[ARCHITECTURE DIAGRAM PLACEHOLDER]</div>
+      <div class="note">Our U.S. Core is Finacle — the API, Data, and Reporting layers make it plug-and-play like LEGO blocks. Retail Banking leverages these layers for personalized pricing, billing, and data-driven insights.</div>
+    </div>
+
+    <!-- Slide 4: Summary with Recap and Future -->
+    <div class="slide">
+      <div class="slide-header"><h1>From Core Banking to the Future of Retail</h1></div>
+      <div class="summary-container">
+
+        <!-- Recap Section -->
+        <div class="recap-section">
+          <h2>🔁 Core Banking Recap</h2>
+          <ul>
+            <li>Central system managing accounts, transactions, and customer data.</li>
+            <li>Calculates interest, fees, and executes pricing and billing.</li>
+            <li>Supports compliance, reporting, and daily operational control.</li>
+            <li>Integrates with Scotiabank infrastructure through APIs and data layers.</li>
+          </ul>
+        </div>
+
+        <!-- Future / Summary Section -->
+        <div>
+          <p style="font-size:1.2em; font-weight:500; color:#333;">Powered by Core Banking — enabling agility, insight, and innovation at every level.</p>
+          <div class="summary-hero">[Retail Banking Future Vision Placeholder]</div>
+          <div class="summary-grid">
+            <div class="summary-card"><h3>⚡ Faster</h3><p>Reusable APIs and data models cut product launch times.</p></div>
+            <div class="summary-card"><h3>💡 Smarter</h3><p>Data-driven pricing and billing deliver better customer outcomes.</p></div>
+            <div class="summary-card"><h3>🌍 Scalable</h3><p>Core-agnostic architecture ready for every Scotiabank market.</p></div>
+            <div class="summary-card"><h3>🔒 Trusted</h3><p>Secure, compliant, and reliable foundation for the future of banking.</p></div>
+            <div class="summary-card"><h3>🚀 Innovative</h3><p>Supports emerging technologies and next-generation experiences.</p></div>
+            <div class="summary-card"><h3>🤝 Connected</h3><p>Unified across channels, systems, and customer journeys.</p></div>
+          </div>
+          <div class="note"><strong>Scotiabank’s Core Banking Architecture</strong> — the engine driving the future of retail transformation.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="navigation">
+    <button class="nav-btn active" onclick="showSlide(1)">1</button>
+    <button class="nav-btn" onclick="showSlide(2)">2</button>
+    <button class="nav-btn" onclick="showSlide(3)">3</button>
+    <button class="nav-btn" onclick="showSlide(4)">4</button>
+    <span style="color:white;margin:0 10px;">|</span>
+    <button class="nav-btn" onclick="prevSlide()">← Prev</button>
+    <button class="nav-btn" onclick="nextSlide()">Next →</button>
+  </div>
+  <script src="../protectionScript/protect.js"></script>
+  <script>
+    let currentSlide=1;const totalSlides=4;
+    function showSlide(n){document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.slide')[n-1].classList.add('active');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.nav-btn')[n-1].classList.add('active');currentSlide=n;}
+    function nextSlide(){if(currentSlide<totalSlides)showSlide(currentSlide+1);}
+    function prevSlide(){if(currentSlide>1)showSlide(currentSlide-1);}
+    document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nextSlide();if(e.key==='ArrowLeft')prevSlide();});
+  </script>
+</body>
+</html>
