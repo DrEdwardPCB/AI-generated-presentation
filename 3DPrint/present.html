@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Printing Trial Lesson – Modern Minimal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ivory:#F8F6F0;
+      --sage:#6DAF9C;
+      --sage-600:#4E8F7E;
+      --slate:#111418;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --accent:#9BC6BB;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--slate);
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    .deck{
+      position:relative; height:100dvh; overflow:hidden;
+      display:grid; grid-template-rows:auto 1fr auto; background:linear-gradient(180deg,var(--ivory) 0%, #fff 60%);
+    }
+    header{
+      display:flex; align-items:center; justify-content:space-between; padding:10px 20px; border-bottom:1px solid var(--border);
+      backdrop-filter:saturate(140%) blur(8px); background:rgba(255,255,255,.7);
+    }
+    .brand{display:flex; gap:10px; align-items:center}
+    .dot{
+      width:14px; height:14px; border-radius:50%; background:var(--sage); box-shadow:0 0 0 6px rgb(157 212 196 / 35%);
+    }
+    .brand h1{font-size:16px; margin:0; letter-spacing:.2px; font-weight:700}
+    .controls{display:flex; gap:8px; align-items:center}
+    .btn{
+      border:1px solid var(--border); background:#fff; color:var(--slate); padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:600;
+      transition:transform .08s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover{transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,.07)}
+    .btn.primary{background:var(--sage); color:white; border-color:transparent}
+    .btn.ghost{background:transparent}
+    .progress{height:4px; background:var(--ivory)}
+    .bar{height:100%; width:0%; background:linear-gradient(90deg,var(--sage),var(--accent)); transition:width .35s ease}
+
+    /* Slides */
+    .slides{height:100%; position:relative; min-height: 1024px;}
+    .slide{
+      position:absolute; inset:0; padding:6vh 9vw; overflow:auto; display:none;
+    }
+    .slide.active{display:block; animation:fade .35s ease}
+    @keyframes fade{from{opacity:.0; transform:translateY(6px)} to{opacity:1; transform:none}}
+
+    /* Typography */
+    h2{font-size:48px; line-height:1.04; margin:6px 0 18px}
+    h3{font-size:28px; margin:12px 0}
+    p{font-size:18px; color:#1f2937}
+    .muted{color:var(--muted)}
+    .lead{font-size:22px; color:#111; font-weight:500}
+    .grid{display:grid; gap:18px}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+    /* Card */
+    .card{
+      background:#fff; border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:0 8px 24px rgba(17,20,24,.04)
+    }
+    .tag{display:inline-flex; align-items:center; gap:8px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:#fff}
+    .tag .pip{width:10px; height:10px; border-radius:50%; background:var(--sage)}
+
+    /* Comparison table */
+    table{width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:14px; border:1px solid var(--border)}
+    th,td{padding:12px 14px; text-align:left; border-bottom:1px solid var(--border)}
+    th{background:var(--ivory); font-size:14px; text-transform:uppercase; letter-spacing:.3px}
+    tr:last-child td{border-bottom:none}
+
+    /* Pill bullets */
+    ul{padding:0; margin:12px 0; list-style:none; display:grid; gap:8px}
+    li{padding:10px 12px; border:1px solid var(--border); border-radius:12px; background:#fff}
+
+    /* LEGO hint blocks */
+    .lego{display:flex; gap:8px; align-items:center}
+    .stud{width:14px; height:14px; border-radius:4px; background:var(--sage); box-shadow:inset 0 2px 0 rgba(255,255,255,.6), 0 2px 0 rgba(0,0,0,.05)}
+
+    /* Image placeholder */
+    .ph{display:grid; place-items:center; border:1px dashed #cbd5e1; border-radius:16px; background:linear-gradient(135deg,#fafafa,#f3f4f6)}
+    .ph svg{width:100%; height:auto}
+    .cap{font-size:13px; color:var(--muted); text-align:center; margin-top:6px}
+
+    /* Footer */
+    footer{display:flex; justify-content:space-between; align-items:center; padding:10px 20px; border-top:1px solid var(--border); background:#fff}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:12px; border:1px solid var(--border); border-bottom-width:2px; padding:2px 6px; border-radius:6px; background:var(--ivory)}
+
+    /* Responsive */
+    @media (max-width:900px){ h2{font-size:36px} .grid.cols-3{grid-template-columns:1fr} .grid.cols-2{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <header>
+      <div class="brand"><span class="dot"></span><h1>3D Printing Trial Lesson</h1></div>
+      <div class="controls">
+        <button class="btn ghost" id="prev" title="Previous (←)">← Prev</button>
+        <button class="btn primary" id="next" title="Next (→)">Next →</button>
+      </div>
+    </header>
+
+    <div class="progress"><div class="bar" id="bar"></div></div>
+
+    <main class="slides" id="slides">
+      <!-- 1. Title -->
+      <section class="slide active" data-title="Title">
+        <span class="tag"><span class="pip"></span> Welcome</span>
+        <h2>Make Ideas Tangible<br/><span style="color:var(--sage-600)">3D Printing Trial Lesson</span></h2>
+        <p class="lead">2 hours • Hands-on • Beginner-friendly</p>
+        <div class="grid cols-3" style="margin-top:20px">
+          <div class="card">
+            <div class="lego"><span class="stud"></span><span class="stud"></span><span class="stud"></span></div>
+            <h3 style="margin-top:10px">What we'll do</h3>
+            <ul>
+              <li>Explore printer types (FDM & SLA)</li>
+              <li>Design in TinkerCAD & SculptGL</li>
+              <li>Slice in Bambu Studio & print</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="ph" style="aspect-ratio:16/10">
+              <!-- Inline SVG placeholder -->
+                <img src="./Bambu 3D Printing Cover.jpeg" style="width:100%">
+            </div>
+            
+          </div>
+          <div class="card">
+            <h3>House Rules</h3>
+            <ul>
+              <li>Safety first: resin & hotends are not toys</li>
+              <li>Be curious, ask questions</li>
+              <li>Iterate fast — prototypes over perfection</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Learning Objectives (Left intentionally for you to fill) -->
+      <section class="slide" data-title="Learning Objectives">
+        <span class="tag"><span class="pip"></span> To be completed</span>
+        <h2>Learning Objectives</h2>
+        <div class="grid cols-2" style="margin-top:12px">
+          <div class="card">
+            <h3>By the end, learners can…</h3>
+            <ul>
+              <li class="muted"> Compare FDM vs SLA use-cases</li>
+              <li class="muted"> Understanding 3D printing process end to end</li>
+              <li class="muted"> Create a simple 3D model in TinkerCAD</li>
+              <li class="muted"> Basic understanding of 3D Sculpting</li>
+              <li class="muted"> Export STL and understand slicing process in Bambu Studio</li>
+            </ul>
+          </div>
+          <div class="card ph" style="aspect-ratio:4/3">
+            <img src="./Bambu Lab P1P 3D Printing.jpg" style="width:100%">
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. What is 3D Printing -->
+      <section class="slide" data-title="What is 3D Printing?">
+        <span class="tag"><span class="pip"></span> Foundations</span>
+        <h2>What is 3D Printing?</h2>
+        <div class="grid cols-2">
+          <div class="card">
+            <p class="lead">Layer-by-layer manufacturing from a digital 3D model — turning bits into atoms.</p>
+            <ul>
+              <li>Digital file (STL/3MF) → Slicer → G-code → Printer</li>
+              <li>Rapid iteration, customization, short-run production</li>
+              <li>From concept to physical object in hours</li>
+            </ul>
+          </div>
+          <div class="card ph" style="aspect-ratio:4/3">
+            <img src="./3D Printing Layer.jpg" style="width:100%">
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Types: FDM vs SLA -->
+      <section class="slide" data-title="Printer Types">
+        <span class="tag"><span class="pip"></span> FDM vs SLA</span>
+        <h2>Printer Types & Materials</h2>
+        <div class="grid cols-2" style="margin-top:10px">
+          <div class="card">
+            <h3>FDM (Filament)</h3>
+            <ul>
+              <li>Materials: PLA, PETG, ABS, TPU</li>
+              <li>Pros: Affordable, strong, easy to use</li>
+              <li>Cons: Visible layer lines, less detail</li>
+              <li>Best for: Prototypes, jigs, enclosures</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>SLA (Resin)</h3>
+            <ul>
+              <li>Materials: Standard, Tough, Flexible, Dental, Castable</li>
+              <li>Pros: Ultra-fine detail, smooth surfaces</li>
+              <li>Cons: Post-cure + handling/safety, cost</li>
+              <li>Best for: Jewellery, dental, miniatures</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <table>
+            <thead><tr><th></th><th>Material</th><th>Precision</th><th>Finish</th><th>Cost</th></tr></thead>
+            <tbody>
+              <tr><td><strong>FDM</strong></td><td>PLA / PETG / ABS / TPU</td><td>0.1–0.3 mm</td><td>Layered</td><td>Low</td></tr>
+              <tr><td><strong>SLA</strong></td><td>Resins (standard/castable/dental)</td><td>0.025–0.1 mm</td><td>Very smooth</td><td>Medium–High</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. Applications -->
+      <section class="slide" data-title="Applications">
+        <span class="tag"><span class="pip"></span> Value</span>
+        <h2>Where 3D Printing Shines</h2>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>Medical 🧬</h3>
+            <ul>
+              <li>Prosthetics & orthotics</li>
+              <li>Surgical guides, models</li>
+              <li>Dental aligners (SLA)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Aerospace ✈️</h3>
+            <ul>
+              <li>Lightweight ducts & brackets</li>
+              <li>Rapid tooling & fixtures</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Jewellery 💍</h3>
+            <ul>
+              <li>Castable resin masters</li>
+              <li>High-detail miniatures</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Prototyping ⚙️</h3>
+            <ul>
+              <li>Form/fit testing</li>
+              <li>Design iteration in hours</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Daily Life 🧩</h3>
+            <ul>
+              <li>Hooks, organizers, camera mounts</li>
+              <li>Repair parts & custom tools</li>
+            </ul>
+          </div>
+          <div class="card" style="display:grid; align-content:center">
+            <h3>Big Idea</h3>
+            <p class="lead">3D printing opens a doorway to make <em>almost anything</em> possible.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Workflow -->
+      <section class="slide" data-title="Workflow">
+        <span class="tag"><span class="pip"></span> Process</span>
+        <h2>End-to-End Workflow</h2>
+        <div class="grid cols-4" style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px">
+          <div class="card"><h3>1) 3D Design</h3><p>CAD (exact) or Sculpt (artistic)</p></div>
+          <div class="card"><h3>2) Slicing</h3><p>Layer height, infill, supports</p></div>
+          <div class="card"><h3>3) Printing</h3><p>FDM filament or SLA resin</p></div>
+          <div class="card"><h3>4) Post-process</h3><p>Remove supports, sand, cure/paint</p></div>
+        </div>
+      </section>
+
+      <!-- 7. 3D Design – CAD -->
+      <section class="slide" data-title="CAD">
+        <span class="tag"><span class="pip"></span> CAD</span>
+        <h2>3D Design: CAD (Exact Geometry)</h2>
+        <div class="grid cols-2">
+          <div class="card">
+            <ul>
+              <li>Accurate dimensions & constraints</li>
+              <li>Best for mechanical parts</li>
+              <li>Tools: Autodesk Fusion, SolidWorks</li>
+              <li><strong>Beginner today:</strong> TinkerCAD (Autodesk)</li>
+            </ul>
+          </div>
+          <div class="card ph" style="aspect-ratio:16/9">
+            <img src="./TinkerCad Original.png" style="width:100%">
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. 3D Design – Sculpt -->
+      <section class="slide" data-title="Sculpt">
+        <span class="tag"><span class="pip"></span> Sculpt</span>
+        <h2>3D Design: Sculpting (Artistic)</h2>
+        <div class="grid cols-2">
+          <div class="card">
+            <ul>
+              <li>Organic shapes, characters, figurines</li>
+              <li>Tools: Blender, Forger 3D, Nomad, <strong>Beginner today:</strong> SculptGL</li>
+              <li>Combine CAD + Sculpt for hybrids</li>
+            </ul>
+          </div>
+          <div class="card ph" style="aspect-ratio:16/9">
+            <img src="./Sculpt 3D.jpg" style="width:100%">
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Hands-on TinkerCAD Basics -->
+      <section class="slide" data-title="TinkerCAD Basics">
+        <span class="tag"><span class="pip"></span> Hands-on</span>
+        <h2>TinkerCAD Basics</h2>
+        <div class="grid cols-3">
+          <div class="card"><h3>Navigation</h3><ul>
+            <li>Orbit / Pan / Zoom</li>
+            <li>Perspective vs Orthographic</li>
+          </ul></div>
+          <div class="card"><h3>Think like LEGO</h3><ul>
+            <li>Drag blocks, align & group</li>
+            <li>Tune parameters (size, radius)</li>
+          </ul></div>
+          <div class="card"><h3>Basic Shapes</h3><ul>
+            <li>Box, cylinder, sphere, hole</li>
+            <li>Rulers & workplane</li>
+          </ul></div>
+        </div>
+      </section>
+
+      <!-- 10. Exercise: Name Tag -->
+      <section class="slide" data-title="Name Tag Exercise">
+        <span class="tag"><span class="pip"></span> 15 min</span>
+        <h2>Exercise: Create Your Name Tag</h2>
+        <div class="grid cols-2">
+          <div class="card">
+            <ul>
+              <li>Use a rounded rectangle base (3–4 mm thick)</li>
+              <li>Add raised text (2 mm) & a keyhole</li>
+              <li>Group → Export <strong>STL</strong></li>
+            </ul>
+          </div>
+          <div class="card ph" style="aspect-ratio:4/3">
+            <img src="./Nametag Tinkercad.png" style="width:100%">
+          </div>
+        </div>
+        <p class="muted">Tip: Keep dimensions under 70×30 mm for quick print.</p>
+      </section>
+
+      <!-- 11. Hands-on: Earrings -->
+      <section class="slide" data-title="Earrings Project">
+        <span class="tag"><span class="pip"></span> Guided</span>
+        <h2>Guided: Design Earrings in TinkerCAD</h2>
+        <div class="grid cols-3">
+          <div class="card"><h3>Sketch</h3><ul><li>Orthogonal View</li><li>Pane</li></ul></div>
+          <div class="card"><h3>Refine</h3><ul><li>Line Path</li><li>Line End processing</li></ul></div>
+          <div class="card"><h3>Export</h3><ul><li>STL for FDM</li><li>3MF for color printers</li></ul></div>
+        </div>
+      </section>
+
+      <!-- 12. SculptGL Basics -->
+      <section class="slide" data-title="SculptGL Basics">
+        <span class="tag"><span class="pip"></span> SculptGL</span>
+        <h2>SculptGL: Quick Start</h2>
+        <div class="grid cols-3">
+          <div class="card"><h3>Setup</h3><ul><li>Mirror in X</li><li>Voxel remesh if needed</li></ul></div>
+          <div class="card"><h3>Tools</h3><ul><li>Crease • Brush • Move • Twist</li><li>Transform • Add Shape</li></ul></div>
+          <div class="card"><h3>Export</h3><ul><li>OBJ / STL</li><li>Decimate before export</li></ul></div>
+        </div>
+      </section>
+
+      <!-- 13. Slicer Demo -->
+      <section class="slide" data-title="Slicing Demo">
+        <span class="tag"><span class="pip"></span> Demo</span>
+        <h2>Guided Demo: Bambu Studio</h2>
+        <div class="grid cols-2">
+          <div class="card"><ul>
+            <li>Import STL → choose printer profile</li>
+            <li>Layer height, infill %, supports, brim</li>
+            <li>Preview → Send to printer / export G-code</li>
+          </ul></div>
+          <div class="card ph" style="aspect-ratio:16/9">
+            <img src="./Bambu Studios UI from Thomas Patterson.avif" style="width:100%">
+          </div>
+        </div>
+      </section>
+
+      <!-- 14. Finding Models -->
+      <section class="slide" data-title="Model Repositories">
+        <span class="tag"><span class="pip"></span> Libraries</span>
+        <h2>Other Ways to Get 3D Models</h2>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Thingiverse</h3>
+            <p>Vast community designs for FDM/SLA</p>
+          </div>
+          <div class="card">
+            <h3>Makerworld</h3>
+            <p>Curated projects with print profiles</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. Advanced Showcase -->
+      <section class="slide" data-title="Advanced Showcase">
+        <span class="tag"><span class="pip"></span> Advanced</span>
+        <h2>Advanced: PDB → PyMOL → 3D Print</h2>
+        <div class="grid cols-2">
+          <div class="card"><ul>
+            <li>Download PDB structure</li>
+            <li>Visualize & thicken surfaces in PyMOL</li>
+            <li>Export watertight STL</li>
+          </ul></div>
+          <div class="card ph" style="aspect-ratio:4/3">
+            <img src="./Pymol Search Result.png" style="width:100%">
+          </div>
+        </div>
+      </section>
+
+      <!-- 16. Take-home -->
+      <section class="slide" data-title="Take Home">
+        <span class="tag"><span class="pip"></span> Inspire</span>
+        <h2>Take‑Home Message</h2>
+        <div class="card">
+          <p class="lead">Infinite possibility: from ideas → designs → real objects you can hold.</p>
+          <ul>
+            <li>Start small, iterate, learn by making</li>
+            <li>Share your models & remix others</li>
+            <li>Safety & stewardship: materials + waste</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Use <span class="kbd">←</span> <span class="kbd">→</span> keys • Click anywhere to advance</div>
+      <div id="counter" class="muted">Slide 1 / 16</div>
+    </footer>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let idx = 0;
+
+    function show(i){
+      idx = Math.max(0, Math.min(slides.length-1, i));
+      slides.forEach((s, n)=> s.classList.toggle('active', n===idx));
+      const pct = ((idx+1)/slides.length)*100;
+      document.getElementById('bar').style.width = pct + '%';
+      document.getElementById('counter').textContent = `Slide ${idx+1} / ${slides.length}`;
+    }
+
+    function next(){ show(idx+1) }
+    function prev(){ show(idx-1) }
+
+    $('#next').on('click', next);
+    $('#prev').on('click', prev);
+
+    $(document).on('keydown', (e)=>{
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    // click-to-advance, but ignore clicks on buttons/links
+    $('.slides').on('click', (e)=>{
+      if($(e.target).closest('button,a').length===0){ next(); }
+    });
+
+    // Start at first slide
+    show(0);
+  </script>
+  <script src="../protectionScript/protect.js"></script>
+</body>
+</html>
