@@ -77,13 +77,13 @@ Below is a **“Mural-style” storyboard** in **Markdown + Mermaid JS** for a *
 flowchart LR
   S1["1. Why crypto (in a bank)?<br/>Value + scope + myths"] --> S2["2. Crypto primitives<br/>Ledger • Wallet • Keys • Address • Tx"]
   S2 --> S3["3. Networks & trust models<br/>Public vs Private • Nodes • Consensus • Finality"]
-  S3 --> S4["4. Assets & money forms<br/>Cryptoasset • Stablecoin • Tokenized deposit • Tokenized ops"]
-  S4 --> S5["5. Core terminology map<br/>Mint/Burn • Transfer • Settlement • Custody • Gas/Fees"]
-  S5 --> S6["6. Strategy 1<br/>Stablecoin on public network via Fireblocks<br/>(rail + custody + policy)"]
-  S6 --> S7["7. Strategy 2<br/>Tokenized deposits on private network<br/>(Hyperledger/Fabric) OR Fireblocks-enabled network"]
-  S7 --> S8["8. Strategy 3<br/>Tokenized operations<br/>(Digital 250A) audit trail + validation"]
-  S8 --> S9["9. Data flows & integration<br/>Events • Reconciliation • Controls • Monitoring"]
-  S9 --> S10["10. Department expectations<br/>Core • FX • Trading • Accounting • Treasury • Billing"]
+  S3 --> S4["4. What is blockchain?<br/>Blocks • Chain • Hard-to-edit history"]
+  S4 --> S5["5. Blockchain network basics<br/>Nodes • Broadcast • Consensus • Finality"]
+  S5 --> S6["6. Two network models<br/>Public vs Private (permissioned)"]
+  S6 --> S7["7. Stablecoin<br/>Digital dollars on crypto rails"]
+  S7 --> S8["8. Tokenized deposits<br/>Bank deposits represented as tokens"]
+  S8 --> S9["9. NB250A<br/>Tokenizing operations (shared audit log)"]
+  S9 --> S10["10. Scotiabank use cases<br/>Where this helps + who is impacted"]
 ```
 
 ---
@@ -157,245 +157,109 @@ flowchart LR
 
 ---
 
-## **Slide 4 — “Money forms” we care about: stablecoin vs tokenized deposit vs tokenized ops**
+## **Slide 4 — What is blockchain? (plain-English)**
 
 ```mermaid
 flowchart TB
-  M["Digital value representations (bank lens)"] --> S["Stablecoin<br/>(on public network)<br/>• fiat-pegged token<br/>• issuer + reserves<br/>• used as rail for transfer/settlement"]
-  M --> D["Tokenized deposit<br/>(on private network)<br/>• bank liability representation<br/>• governed participants<br/>• integrates with core deposit ledger"]
-  M --> O["Tokenized operations<br/>(Digital 250A)<br/>• tokenize process, not asset<br/>• immutable audit trail<br/>• distributed validation + instant info exchange"]
-
-  S --> Q["Key terms<br/>issuer • reserve • mint/burn • redemption"]
-  D --> Q2["Key terms<br/>liability • onboarding • permissioning • settlement finality"]
-  O --> Q3["Key terms<br/>workflow state • attestations • event log • auditability"]
+  T["Transactions<br/>(messages like: 'Alice pays Bob 10')"] --> B["Block<br/>A bundle of transactions<br/>+ a link to the previous block"]
+  B --> C["Blockchain<br/>Blocks linked in order"]
+  C --> Why["Why people care<br/>If you change an old block,<br/>the links after it break"]
 ```
 
 ---
 
-## **Slide 5 — Core terminology map (actions + roles + controls)**
+## **Slide 5 — Blockchain network basics (how it “runs”)**
 
 ```mermaid
 flowchart LR
-  subgraph Actions["Common actions"]
-    A1["Mint<br/>(create tokens)"]
-    A2["Burn<br/>(destroy tokens)"]
-    A3["Transfer<br/>(move ownership)"]
-    A4["Redeem<br/>token -> fiat/deposit"]
-    A5["Settle<br/>finalize obligations"]
-  end
-
-  subgraph Roles["Roles in ecosystem"]
-    R1["Issuer<br/>creates/redeems"]
-    R2["Custodian<br/>holds keys/controls"]
-    R3["Wallet operator<br/>signs transfers"]
-    R4["Validator/Node<br/>confirms transactions"]
-    R5["Observer<br/>monitoring/analytics"]
-  end
-
-  subgraph Controls["Bank-grade controls"]
-    C1["Policy engine<br/>who can send/receive"]
-    C2["Approvals<br/>4-eyes / thresholds"]
-    C3["Sanctions/AML screening<br/>address + entity"]
-    C4["Travel rule / data exchange<br/>where required"]
-    C5["Reconciliation<br/>on-chain <-> bank ledger"]
-    C6["Key mgmt<br/>HSM/MPC, rotation, recovery"]
-  end
-
-  Actions --> Controls
-  Roles --> Controls
+  U["User/Bank app<br/>creates a transaction"] --> S["Signed transaction<br/>(proves 'I approve')"]
+  S --> N["Network of nodes<br/>many computers share the ledger"]
+  N --> V["Validation rules<br/>Is it allowed?<br/>Does the sender have funds?"]
+  V --> K["Consensus<br/>Nodes agree on the next block"]
+  K --> F["Finality<br/>The network says 'done'"]
+  F --> L["Ledger updated<br/>Everyone sees the same result"]
 ```
 
 ---
 
-## **Slide 6 — Strategy 1: Stablecoin on public network via Fireblocks (data flow + terms)**
-
-```mermaid
-sequenceDiagram
-  participant PO as PO/Business
-  participant Bank as Scotiabank Systems
-  participant FB as Fireblocks (custody/MPC + policy)
-  participant Chain as Public Chain
-  participant Cpty as Counterparty Wallet/Exchange
-
-  PO->>Bank: Initiate transfer (business intent)<br/>(amount, currency, beneficiary)
-  Bank->>FB: Create transaction request<br/>(policy, approvals, whitelists)
-  FB->>FB: MPC signing workflow<br/>(quorum/approvals)
-  FB->>Chain: Broadcast signed transaction<br/>(stablecoin transfer)
-  Chain-->>Chain: Validate + finality<br/>(confirmations)
-  Chain-->>FB: Tx receipt + status<br/>(hash, block, confirmations)
-  FB-->>Bank: Webhook/events<br/>confirmed/failed/pending
-  Bank-->>PO: Business status<br/>completed + reference IDs
-  Cpty-->>Chain: Receives stablecoin<br/>(address credited)
-
-  Note over Bank,FB: Key terms<br/>wallet • MPC • policy engine • whitelist<br/>hash • confirmations • gas/fees • finality
-  Note over Bank,Chain: Bank must map on-chain events -> internal ledger postings
-```
-
----
-
-## **Slide 7 — Strategy 2: Tokenized deposits on private network (Fabric-style) OR Fireblocks-enabled network**
+## **Slide 6 — Two network models: Public vs Private**
 
 ```mermaid
 flowchart TB
-  subgraph Participants["Permissioned participants"]
-    B1["Scotiabank Node(s)<br/>(core + ops)"]
-    B2["Member Bank/Partner Node"]
-    B3["Reg/Observer Node (optional)"]
+  Q["Same big idea:<br/>many parties share the same record"] --> Public
+  Q --> Private
+
+  subgraph Public["Public network (open)"]
+    P1["Anyone can use it"]
+    P2["Anyone can run nodes"]
+    P3["Very transparent"]
+    P4["Fees can change (gas)"]
   end
 
-  subgraph Network["Private network mechanics (Fabric-like)"]
-    N1["Identity & Membership<br/>(CA, certificates)"]
-    N2["Channels/Privacy<br/>who sees what"]
-    N3["Smart contracts (chaincode)<br/>transfer rules + limits"]
-    N4["Ordering/Consensus<br/>fast finality"]
+  subgraph Private["Private network (permissioned)"]
+    R1["Only approved members join"]
+    R2["Known identities"]
+    R3["Privacy controls (who can see what)"]
+    R4["Rules set by the group"]
   end
-
-  subgraph Money["Tokenized deposit concept"]
-    M1["Deposit token = bank liability representation"]
-    M2["Mint/Burn tightly coupled<br/>with core deposit ledger"]
-    M3["Redemption rules<br/>(1:1, eligibility)"]
-  end
-
-  subgraph Integration["Bank integration points"]
-    I1["Core banking ledger<br/>(source of truth for liability)"]
-    I2["API layer<br/>initiate, query, reconcile"]
-    I3["Events/ODL<br/>operational data layer"]
-    I4["Controls<br/>limits, approvals, screening"]
-  end
-
-  Participants --> Network --> Money --> Integration
-
-  Integration --> Outcome["Business outcomes<br/>• deterministic settlement<br/>• controlled privacy<br/>• shared state among members<br/>• easier governance vs public chain"]
-  
-  Note1["Terms to teach:<br/>permissioned • membership • channel<br/>finality • chaincode • identity • certificate<br/>mint/burn coupling • reconciliation"]
-  M1 -.-> Note1
 ```
 
 ---
 
-## **Slide 8 — Strategy 3: Tokenized operations (Digital 250A) process tokenization as audit trail**
-
-```mermaid
-flowchart LR
-  subgraph Process["What is tokenized operations?"]
-    P1["Tokenize process states<br/>(not the asset)"]
-    P2["Immutable event log<br/>who/what/when"]
-    P3["Distributed validation<br/>multiple parties attest"]
-    P4["Instant info exchange<br/>shared view of truth"]
-  end
-
-  subgraph Example["Example: operational workflow (generic)"]
-    E1["Step 1: Request created"]
-    E2["Step 2: Eligibility checks"]
-    E3["Step 3: Approvals + attestations"]
-    E4["Step 4: Execution<br/>(payment/trade/FX/etc.)"]
-    E5["Step 5: Reconciliation + reporting"]
-  end
-
-  Process --> Example
-  E1 --> E2 --> E3 --> E4 --> E5
-
-  subgraph Terms["Key terminology"]
-    T1["Attestation<br/>signed proof of action"]
-    T2["Event sourcing<br/>state derived from events"]
-    T3["Immutability<br/>tamper-evident records"]
-    T4["Shared governance<br/>who can write/verify"]
-  end
-
-  Example --> Terms
-  
-  Note2["Why it matters:<br/>• audit + compliance evidence<br/>• reduced disputes<br/>• faster inter-dept handoffs<br/>• clearer accountability"]
-  P1 -.-> Note2
-```
-
----
-
-## **Slide 9 — “Translate between worlds”: BA-focused terminology + data flowing in/out of networks**
+## **Slide 7 — Stablecoin (digital dollars on crypto rails)**
 
 ```mermaid
 flowchart TB
-  subgraph Intent["Business intent (PO language)"]
-    BI1["Transfer funds"]
-    BI2["Settle obligation"]
-    BI3["Move liquidity"]
-    BI4["Record operational proof"]
-  end
+  CashIn["Cash/fiat goes in<br/>(e.g., dollars)"] --> Issuer["Issuer/Bank partner<br/>holds reserves"]
+  Issuer --> Mint["Mint stablecoins<br/>(create tokens)"]
+  Mint --> Transfer["Transfer tokens 24/7<br/>on a network"]
+  Transfer --> Redeem["Redeem (cash out)<br/>tokens -> cash"]
+  Redeem --> CashOut["Cash/fiat comes out"]
 
-  subgraph Translation["BA translation layer (terms + mapping)"]
-    TL1["Asset model<br/>what is being represented?"]
-    TL2["Participants<br/>who are parties + roles?"]
-    TL3["Constraints<br/>limits, cutoffs, approvals"]
-    TL4["Data mapping<br/>IDs, references, states"]
-    TL5["Failure modes<br/>pending, failed, reversed"]
-  end
-
-  subgraph Tech["Technical flow (Dev language)"]
-    TF1["API call -> tx request"]
-    TF2["Signing (MPC/HSM)<br/>+ policy approvals"]
-    TF3["Broadcast/Submit<br/>public chain or private network"]
-    TF4["Event intake<br/>webhooks, block events, receipts"]
-    TF5["Ledger posting<br/>core GL / sub-ledger"]
-    TF6["Monitoring<br/>alerts, analytics, SIEM"]
-  end
-
-  Intent --> Translation --> Tech
-
-  subgraph Artifacts["Artifacts BAs produce"]
-    A1["Glossary + domain model"]
-    A2["State diagrams<br/>(PENDING/CONFIRMED/FAILED)"]
-    A3["Interface contracts<br/>(payloads + events)"]
-    A4["Controls matrix<br/>(policy, approval, screening)"]
-  end
-
-  Translation --> Artifacts
+  Risk["Key question<br/>Do we trust the reserves<br/>and the issuer controls?"] -.-> Issuer
 ```
 
 ---
 
-## **Slide 10 — Department expectations: what changes when “crypto rails” exist?**
+## **Slide 8 — Tokenized deposit (bank deposits as tokens)**
+
+```mermaid
+flowchart TB
+  Ledger["Bank deposit ledger<br/>(source of truth)"] --> MintD["Mint deposit-tokens<br/>when balance is locked/allocated"]
+  MintD --> NetworkD["Private network<br/>approved members only"]
+  NetworkD --> TransferD["Transfer deposit-tokens<br/>under bank rules"]
+  TransferD --> BurnD["Burn/redeem tokens<br/>when funds return to deposits"]
+  BurnD --> Ledger
+
+  NoteD["Key idea<br/>This is still bank money<br/>(a bank liability)"] -.-> Ledger
+```
+
+---
+
+## **Slide 9 — NB250A (tokenizing operations, not money)**
 
 ```mermaid
 flowchart LR
-  subgraph Core["Core Banking"]
-    C1["Deposit liability linkage<br/>(tokenized deposit mint/burn)"]
-    C2["Posting rules<br/>on-chain event -> core ledger"]
-    C3["Customer entitlements<br/>who can access what rail"]
-  end
+  RQ["Request created<br/>(with an ID)"] --> CK["Checks<br/>(eligibility/controls)"]
+  CK --> AP["Approvals<br/>(who signed off?)"]
+  AP --> EX["Execution<br/>(do the action)"]
+  EX --> LG["Shared event log<br/>who/what/when"]
+  LG --> AU["Audit/reporting<br/>easy to prove what happened"]
 
-  subgraph Billing["Billing & Pricing"]
-    B1["Fee model<br/>network fees vs bank fees"]
-    B2["Pricing rules<br/>FX spread, service tiering"]
-    B3["Invoice + cost allocation<br/>per tx / per wallet / per client"]
-  end
+  Idea["Key idea<br/>Tokenize the workflow state,<br/>not the asset"] -.-> LG
+```
 
-  subgraph FX["FX"]
-    F1["On/off ramp FX points<br/>stablecoin<->fiat"]
-    F2["Rate timestamping<br/>for audit + disputes"]
-    F3["Exposure mgmt<br/>intraday liquidity"]
-  end
+---
 
-  subgraph Trading["Trading"]
-    T1["Settlement options<br/>T+0/atomic vs traditional"]
-    T2["Counterparty workflows<br/>wallet allowlists, attestations"]
-    T3["Market infrastructure integration<br/>venues, custodians, reporting"]
-  end
+## **Slide 10 — Potential use cases in Scotiabank (simple examples)**
 
-  subgraph Accounting["Accounting"]
-    A1["Classification<br/>assets vs liabilities vs off-balance processes"]
-    A2["Reconciliation<br/>on-chain proofs + internal books"]
-    A3["Controls evidence<br/>audit trail, approvals, logs"]
-  end
+```mermaid
+flowchart TB
+  Use["Where this helps most<br/>• many parties involved<br/>• lots of reconciliation today<br/>• audit trail matters"] --> U1["Cross-border payments<br/>faster 24/7 settlement status"]
+  Use --> U2["Treasury & liquidity<br/>move funds faster + better visibility"]
+  Use --> U3["Trading/settlement<br/>faster settlement options"]
+  Use --> U4["Accounting & audit<br/>stronger evidence trail"]
+  Use --> U5["Operations (NB250A)<br/>shared workflow tracking"]
 
-  subgraph Treasury["Treasury"]
-    R1["Liquidity mgmt 24/7<br/>prefunding vs on-demand"]
-    R2["Reserve/Collateral logic<br/>stablecoin reserves or deposit backing"]
-    R3["Stress scenarios<br/>network outage, fee spikes, limits"]
-  end
-
-  Core --> Link["Shared requirements across departments<br/>• governance & risk<br/>• identity & access<br/>• monitoring + incident response<br/>• data lineage + reporting<br/>• vendor ops model (Fireblocks / Fabric / etc.)"]
-  Billing --> Link
-  FX --> Link
-  Trading --> Link
-  Accounting --> Link
-  Treasury --> Link
+  Guard["Always required<br/>identity • approvals • limits • monitoring • reconciliation"] -.-> Use
 ```
