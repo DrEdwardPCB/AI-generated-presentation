@@ -344,7 +344,7 @@
 
           <div style="height:14px"></div>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -479,7 +479,7 @@
 
           <div style="height:14px"></div>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -609,7 +609,7 @@
 
           <div style="height:14px"></div>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -701,7 +701,7 @@
           <div class="h2">Blockchain = a shared notebook that’s hard to edit.</div>
           <p class="sub">Think of it like pages in a notebook. Each page “locks” the page before it.</p>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -769,6 +769,132 @@
         </div>
       </div>
     </section>
+    <!-- SLIDE 5 (NEW): SMART CONTRACTS -->
+    <section class="slide" data-slide="5">
+      <div class="ribbon">
+        <div class="brand">
+          <div class="dot"></div>
+          <div>
+            <div style="font-size:14px;font-weight:900;line-height:1;">Scotiabank</div>
+            <small>Crypto Basics • Mini Pack</small>
+          </div>
+        </div>
+        <h1 class="title">4) Smart contracts: “rules that run” on the shared ledger</h1>
+        <div class="pill"><kbd>Space</kbd> reveal</div>
+      </div>
+
+      <div class="content">
+        <div class="card soft">
+          <div class="h2">What is a smart contract?</div>
+          <p class="lead">
+            A smart contract is <b>shared business logic</b> that runs on a blockchain.<br/>
+            Instead of one party enforcing rules, the network enforces the same rules for everyone.
+          </p>
+
+          <ul class="bullets reveal" data-reveal>
+            <li>
+              <div class="check" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 12l2 2 4-4"></path><path d="M12 2l9 4.5v11L12 22 3 17.5v-11L12 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <b>Analogy: “vending machine rules”</b>
+                <span>Put in $2 + choose item → machine releases item automatically. No clerk needed to interpret rules.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 7h16M4 12h16M4 17h16"></path>
+                </svg>
+              </div>
+              <div>
+                <b>How it works (high-level)</b>
+                <span>Users submit transactions → contract checks rules → updates shared ledger state (approved / rejected).</span>
+              </div>
+            </li>
+            <li>
+              <div class="check" aria-hidden="true">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 7l-8 8-4-4"></path>
+                </svg>
+              </div>
+              <div>
+                <b>Why it matters</b>
+                <span>Consistent enforcement + fewer disputes + automation of “if/then” policies across parties.</span>
+              </div>
+            </li>
+          </ul>
+
+          <div style="height:12px"></div>
+          <div class="qa">
+            <b>Open-ended question:</b>
+            <span> If some rules become “code on a shared ledger,” which bank processes could be safer or faster — and which should remain off-chain?</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="h2">Example smart contract functions (bank-friendly)</div>
+          <p class="sub">These are examples of what “rules that run” can do. (Not technical code — just concepts.)</p>
+
+          <div class="diagram">
+            <div class="row">
+              <div class="node soft">
+                <div class="cap">
+                  <span class="tag good">1) Allowlist transfers</span>
+                  <span class="tag">policy</span>
+                </div>
+                <div class="txt">Only allow transfers to approved counterparties (addresses/participants).</div>
+              </div>
+              <div class="node">
+                <div class="cap">
+                  <span class="tag good">2) Limits & approvals</span>
+                  <span class="tag">controls</span>
+                </div>
+                <div class="txt">Enforce transaction limits; require extra approval above threshold.</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="node">
+                <div class="cap">
+                  <span class="tag good">3) Mint / burn rules</span>
+                  <span class="tag">supply</span>
+                </div>
+                <div class="txt">Create/destroy tokens only when specific conditions are met (e.g., backed by deposit/liability rules).</div>
+              </div>
+              <div class="node soft">
+                <div class="cap">
+                  <span class="tag good">4) Escrow & atomic swap</span>
+                  <span class="tag">settlement</span>
+                </div>
+                <div class="txt">“Either both sides happen, or neither happens” (reduce settlement risk).</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="node">
+                <div class="cap"><span class="tag">Tiny pseudo-logic (illustrative)</span></div>
+                <div class="codebox">IF receiver is allowlisted
+  AND amount <= limit
+  AND approvals >= required
+THEN transfer & mark confirmed
+ELSE reject (no ledger update)</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="node" style="background:linear-gradient(180deg,#fff 0%, #f8fafc 100%)">
+                <div class="cap"><span class="tag red">Takeaway</span></div>
+                <div class="txt">Smart contracts = shared rules that automate decisions on the shared ledger.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- SLIDE 5 -->
     <section class="slide" data-slide="5">
@@ -789,7 +915,7 @@
           <div class="h2">A network is “many computers agreeing on the same notebook.”</div>
           <p class="sub">Instead of one server updating the ledger, many nodes verify and share updates.</p>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -876,7 +1002,7 @@
           <div class="h2">Same idea (shared record), different rules (who can join).</div>
           <p class="sub">Public = open to anyone. Private = only approved members.</p>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -961,7 +1087,7 @@
           <div class="h2">Stablecoin = “digital dollars” that try to stay at $1.</div>
           <p class="sub">A company (issuer) promises you can trade 1 token for 1 dollar (or similar).</p>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -1048,7 +1174,7 @@
           <div class="h2">Tokenized deposit = “your bank deposit, represented as a token.”</div>
           <p class="sub">Unlike stablecoins, it’s typically issued by the bank and tied to the bank’s deposit ledger.</p>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -1136,7 +1262,7 @@
           <div class="h2">Sometimes we don’t tokenize money — we tokenize the process.</div>
           <p class="sub">NB250A can be thought of as using a shared log to prove “what happened” across teams.</p>
 
-          <ul class="bullets reveal" data-reveal>
+          <ul class="bullets show">
             <li>
               <div class="check" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -1335,12 +1461,6 @@
         e.preventDefault();
         revealNext();
       }
-    });
-
-    // Click anywhere (except buttons) to reveal next point
-    document.addEventListener("click", (e) => {
-      if (e.target.closest("button")) return;
-      revealNext();
     });
   </script>
 </body>
