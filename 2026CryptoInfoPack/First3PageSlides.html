@@ -1155,93 +1155,182 @@ ELSE reject (no ledger update)</div>
       </div>
     </section>
 
-    <!-- SLIDE 8 -->
-    <section class="slide" data-slide="8">
-      <div class="ribbon">
-        <div class="brand">
-          <div class="dot"></div>
+    <!-- INSERT THIS AS A NEW / REPLACEMENT SLIDE SECTION IN YOUR DECK (same CSS/classes assumed) -->
+<section class="slide" data-slide="8">
+  <div class="ribbon">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <div style="font-size:14px;font-weight:850;line-height:1;">Scotiabank</div>
+        <small>Crypto Basics • 10-slide Pack</small>
+      </div>
+    </div>
+    <h1 class="title">8) Tokenized deposits — bridging crypto rails & bank money</h1>
+    <div class="pill"><kbd>Space</kbd> reveal points</div>
+  </div>
+
+  <div class="content">
+    <!-- LEFT: EXEC + KEY QUESTIONS -->
+    <div class="card soft">
+      <div class="h2">What it is</div>
+      <p class="sub">
+        A <b>tokenized deposit</b> is a <b>bank deposit liability</b> represented as a token.
+        The token moves on a network, but the <b>bank’s core deposit ledger remains the source of truth</b>.
+      </p>
+
+      <ul class="bullets show">
+        <li>
+          <div class="check" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+          </div>
           <div>
-            <div style="font-size:14px;font-weight:850;line-height:1;">Scotiabank</div>
-            <small>Crypto Basics • 10-slide Pack</small>
+            <b>1) Bridge crypto ↔ traditional</b>
+            <span>
+              Use <b>blockchain-style rails</b> (24/7 transfer, shared state, atomic settlement) while keeping
+              <b>money, controls, and legal claim</b> inside the bank (KYC/AML, limits, audit, liability).
+            </span>
           </div>
-        </div>
-        <h1 class="title">8) Tokenized deposits</h1>
-        <div class="pill"><kbd>Space</kbd> reveal points</div>
-      </div>
+        </li>
 
-      <div class="content">
-        <div class="card soft">
-          <div class="h2">Tokenized deposit = “your bank deposit, represented as a token.”</div>
-          <p class="sub">Unlike stablecoins, it’s typically issued by the bank and tied to the bank’s deposit ledger.</p>
-
-          <ul class="bullets show">
-            <li>
-              <div class="check" aria-hidden="true">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10z"></path>
-                  <path d="M9 22V12h6v10"></path>
-                </svg>
-              </div>
-              <div>
-                <b>It’s still bank money</b>
-                <span>The bank remains the issuer and operator of the deposit liability.</span>
-              </div>
-            </li>
-            <li>
-              <div class="check" aria-hidden="true">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v20"></path><path d="M7 7h10"></path><path d="M7 17h10"></path>
-                </svg>
-              </div>
-              <div>
-                <b>Why do it?</b>
-                <span>Faster settlement between approved members (e.g., internal flows or partner networks).</span>
-              </div>
-            </li>
-            <li>
-              <div class="check" aria-hidden="true">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 6L9 17l-5-5"></path>
-                </svg>
-              </div>
-              <div>
-                <b>Key promise</b>
-                <span>1 token matches 1 unit of deposit balance (with clear rules).</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <div class="h2">How it connects to the bank</div>
-          <p class="sub">Tokens should always reconcile to the bank’s books.</p>
-
-          <div class="diagram">
-            <div class="row">
-              <div class="node">
-                <div class="cap"><span class="tag red">Core deposit ledger</span></div>
-                <div class="txt">The bank’s “source of truth” for balances.</div>
-              </div>
-              <div class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path>
-                </svg>
-              </div>
-              <div class="node" style="background:linear-gradient(180deg,#fff 0%, #fff7f8 100%); border-color: rgba(227,24,55,.20)">
-                <div class="cap"><span class="tag good">Token network</span></div>
-                <div class="txt">Approved members transfer deposit-tokens under policy rules.</div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="node">
-                <div class="cap"><span class="tag warn">Controls</span></div>
-                <div class="txt">Identity, approvals, limits, audit logs, and reconciliation are essential.</div>
-              </div>
-            </div>
+        <li>
+          <div class="check" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20"></path><path d="M7 7h10"></path><path d="M7 17h10"></path>
+            </svg>
           </div>
+          <div>
+            <b>2) Reserve backing at mint</b>
+            <span>
+              Minting <b>does not create new money</b>. The bank <b>reserves / ring-fences</b> an equivalent deposit
+              amount (e.g., earmarked balance/control account). <b>No reserve → no mint.</b>
+            </span>
+          </div>
+        </li>
+
+        <li>
+          <div class="check" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--sb-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7l-8 8-4-4"></path>
+            </svg>
+          </div>
+          <div>
+            <b>3) Redemption + settlement</b>
+            <span>
+              Redeem = <b>burn token</b> → <b>release reserved deposit</b>.
+              If external parties need fiat, settlement uses existing rails (RTGS/wire/clearing) after burn (or atomically).
+            </span>
+          </div>
+        </li>
+      </ul>
+
+      <div style="height:10px"></div>
+
+      <div class="node" style="background:linear-gradient(180deg,#fff 0%, #fff7f8 100%); border-color: rgba(227,24,55,.20)">
+        <div class="cap">
+          <span class="tag good">Executive takeaway</span>
+        </div>
+        <div class="txt">
+          <b>Bank money on modern rails:</b> tokens move fast, but balances always reconcile to the bank’s books.
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- RIGHT: FLOW DIAGRAM (MINT → TRANSFER → REDEEM) -->
+    <div class="card">
+      <div class="h2">Lifecycle (mint → transfer → redeem)</div>
+      <p class="sub">A simple, bank-aligned flow with clear reserve and settlement steps.</p>
+
+      <div class="diagram">
+        <!-- MINT -->
+        <div class="row">
+          <div class="node">
+            <div class="cap"><span class="tag red">Core deposit ledger</span></div>
+            <div class="txt">
+              Customer/internal funds exist as a deposit balance (bank liability).
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path>
+            </svg>
+          </div>
+
+          <div class="node" style="background:linear-gradient(180deg,#fff 0%, #f8fafc 100%);">
+            <div class="cap"><span class="tag warn">Reserve / earmark</span></div>
+            <div class="txt">
+              Amount is <b>ring-fenced</b> (segregated/earmarked). Prevent double-spend between token + deposit.
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="node" style="background:linear-gradient(180deg,#fff 0%, #fff7f8 100%); border-color: rgba(227,24,55,.20)">
+            <div class="cap"><span class="tag good">Mint token</span> <span class="muted">1:1</span></div>
+            <div class="txt">
+              Smart contract / policy engine mints deposit-tokens equal to reserved amount.
+              <b>Outstanding tokens must always match reserved deposits.</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRANSFER -->
+        <div class="row">
+          <div class="node">
+            <div class="cap"><span class="tag good">Token network transfer</span></div>
+            <div class="txt">
+              Approved members transfer tokens with controls: identity, limits, approvals, audit logs.
+            </div>
+          </div>
+        </div>
+
+        <!-- REDEEM -->
+        <div class="row">
+          <div class="node">
+            <div class="cap"><span class="tag warn">Redeem request</span></div>
+            <div class="txt">
+              Holder requests redemption (internal user, partner bank, or vendor flow via bank).
+            </div>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path>
+            </svg>
+          </div>
+
+          <div class="node" style="background:linear-gradient(180deg,#fff 0%, #f8fafc 100%)">
+            <div class="cap"><span class="tag red">Burn token</span></div>
+            <div class="txt">
+              Tokens are burned (destroyed) per policy (and preferably with atomicity to cash release).
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="node" style="background:linear-gradient(180deg,#fff 0%, #fff7f8 100%); border-color: rgba(227,24,55,.20)">
+            <div class="cap"><span class="tag good">Settle funds</span></div>
+            <div class="txt">
+              Bank releases reserved deposit:
+              <b>(A) internal</b> credit to account, or <b>(B) external</b> payout via existing rails (RTGS/wire/clearing).
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="node">
+            <div class="cap"><span class="tag">Control checkpoint</span></div>
+            <div class="txt">
+              Continuous reconciliation: <b>tokens outstanding = reserved deposits</b> + full audit trail.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- SLIDE 9 -->
     <section class="slide" data-slide="9">
