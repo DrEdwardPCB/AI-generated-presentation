@@ -116,7 +116,7 @@ sequenceDiagram
     Ext-->>FB: Fiat equivalent confirmed
     FB->>Wh: Webhook: transaction COMPLETED
     Wh->>Orch: Event received
-    Orch->>Core: Debit customer digital mirror; credit customer fiat account
+    Orch->>Core: Debit digital mirror, credit customer fiat account
     Orch->>Recon: Register for reconciliation
     Recon->>Core: Match on-chain vs mirror
     Core-->>Cust: Confirmation (fiat credited)
