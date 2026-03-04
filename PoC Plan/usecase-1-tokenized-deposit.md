@@ -17,37 +17,108 @@ Validate end-to-end tokenized deposit lifecycle on a private network managed in 
 
 ## 3) Custody Hierarchy Models
 
+Color coding: **Orange** = Fireblocks (vendor), **Blue** = Scotiabank vault, **Green** = operational wallet, **Purple** = customer vault account.
+
+### 3.1 Model A — Omnibus + Operational + Client
+
 ```mermaid
 graph TD
-    ROOT[Fireblocks Vendor Custody Root]
-
-    subgraph "Model A - Omnibus + Operational + Client"
-        OMNIBUS[Bank Omnibus Vault]
-        OP1[Bank Treasury Wallet]
-        OP2[Bank Operations Wallet]
-        C1[Client A Wallet]
-        C2[Client B Wallet]
-        OMNIBUS --> OP1
-        OMNIBUS --> OP2
-        OMNIBUS --> C1
-        OMNIBUS --> C2
+    subgraph Fireblocks["Fireblocks MPC Custody"]
+        ROOT["Fireblocks Vendor Custody Root"]
     end
 
-    subgraph "Model B - Per Client Segregation"
-        CM1[Client A Dedicated Vault]
-        CM2[Client B Dedicated Vault]
+    subgraph Bank["Scotiabank Omnibus"]
+        OMNIBUS["Scotiabank Omnibus Vault"]
     end
 
-    subgraph "Model C - Per BU Segregation"
-        BU1[BU1 Master Vault]
-        BU2[BU2 Master Vault]
+    subgraph Ops["Bank Operational Wallets"]
+        OP1["Treasury Wallet"]
+        OP2["Operations Wallet"]
+    end
+
+    subgraph Clients["Customer Vault Accounts"]
+        C1["Client A Vault Account"]
+        C2["Client B Vault Account"]
     end
 
     ROOT --> OMNIBUS
-    ROOT --> CM1
-    ROOT --> CM2
-    ROOT --> BU1
-    ROOT --> BU2
+    OMNIBUS --> OP1
+    OMNIBUS --> OP2
+    OMNIBUS --> C1
+    OMNIBUS --> C2
+
+    style ROOT fill:#f97316,color:#fff
+    style OMNIBUS fill:#2563eb,color:#fff
+    style OP1 fill:#16a34a,color:#fff
+    style OP2 fill:#16a34a,color:#fff
+    style C1 fill:#8b5cf6,color:#fff
+    style C2 fill:#8b5cf6,color:#fff
+```
+
+### 3.2 Model B — Per Client Segregation
+
+```mermaid
+graph TD
+    subgraph Fireblocks["Fireblocks MPC Custody"]
+        ROOT["Fireblocks Vendor Custody Root"]
+    end
+
+    subgraph ClientA["Client A"]
+        VAULT_A["Scotiabank Vault for Client A"]
+        WALLET_A["Client A Vault Account"]
+    end
+
+    subgraph ClientB["Client B"]
+        VAULT_B["Scotiabank Vault for Client B"]
+        WALLET_B["Client B Vault Account"]
+    end
+
+    ROOT --> VAULT_A
+    ROOT --> VAULT_B
+    VAULT_A --> WALLET_A
+    VAULT_B --> WALLET_B
+
+    style ROOT fill:#f97316,color:#fff
+    style VAULT_A fill:#2563eb,color:#fff
+    style VAULT_B fill:#2563eb,color:#fff
+    style WALLET_A fill:#8b5cf6,color:#fff
+    style WALLET_B fill:#8b5cf6,color:#fff
+```
+
+### 3.3 Model C — Per BU Segregation
+
+```mermaid
+graph TD
+    subgraph Fireblocks["Fireblocks MPC Custody"]
+        ROOT["Fireblocks Vendor Custody Root"]
+    end
+
+    subgraph BU1["Business Unit 1"]
+        VAULT_BU1["BU1 Scotiabank Vault"]
+        OPS_BU1["BU1 Operational Wallets"]
+        CLIENTS_BU1["BU1 Customer Vault Accounts"]
+    end
+
+    subgraph BU2["Business Unit 2"]
+        VAULT_BU2["BU2 Scotiabank Vault"]
+        OPS_BU2["BU2 Operational Wallets"]
+        CLIENTS_BU2["BU2 Customer Vault Accounts"]
+    end
+
+    ROOT --> VAULT_BU1
+    ROOT --> VAULT_BU2
+    VAULT_BU1 --> OPS_BU1
+    VAULT_BU1 --> CLIENTS_BU1
+    VAULT_BU2 --> OPS_BU2
+    VAULT_BU2 --> CLIENTS_BU2
+
+    style ROOT fill:#f97316,color:#fff
+    style VAULT_BU1 fill:#2563eb,color:#fff
+    style VAULT_BU2 fill:#2563eb,color:#fff
+    style OPS_BU1 fill:#16a34a,color:#fff
+    style OPS_BU2 fill:#16a34a,color:#fff
+    style CLIENTS_BU1 fill:#8b5cf6,color:#fff
+    style CLIENTS_BU2 fill:#8b5cf6,color:#fff
 ```
 
 ---
@@ -158,7 +229,64 @@ sequenceDiagram
 
 ---
 
-## 6) Goal 1 Test Items (Updated)
+## 6) Money Movement — Flow Diagram (All Scenarios)
+
+The following flow diagram summarizes **fiat** and **token** movement across all sequence-diagram scenarios (Minting, FX, Transaction, Burning).
+
+```mermaid
+flowchart TB
+    subgraph Mint["1. Minting"]
+        M_CUST["Customer Fiat Acct"]
+        M_RES["Reserve Account"]
+        M_MIR["Mirror Account A"]
+        M_WA["Customer Wallet A"]
+        M_CUST -->|Fiat deposit| M_RES
+        M_RES -.->|Hold| M_MIR
+        M_MIR -.->|Credit mirror| M_MIR
+        M_MIR -->|Mint token| M_WA
+    end
+
+    subgraph FX["2. FX"]
+        F_WA["Wallet A"]
+        F_MIR["Mirror A"]
+        F_WA -->|Burn USD token| F_WA
+        F_WA -->|Mint CAD token| F_WA
+        F_MIR -->|Update ledger USD→CAD| F_MIR
+    end
+
+    subgraph Tx["3. Transaction"]
+        T_WA["Wallet A"]
+        T_WB["Wallet B"]
+        T_MA["Mirror A"]
+        T_MB["Mirror B"]
+        T_WA -->|Token transfer| T_WB
+        T_MA -->|Debit| T_MA
+        T_MB -->|Credit| T_MB
+    end
+
+    subgraph Burn["4. Burning"]
+        B_WA["Wallet A"]
+        B_MIR["Mirror A"]
+        B_RES["Reserve Account"]
+        B_CUST["Customer Fiat Acct"]
+        B_WA -->|Burn token| B_WA
+        B_MIR -->|Reduce mirror| B_MIR
+        B_RES -->|Release fiat| B_CUST
+    end
+```
+
+**Legend:**
+
+| Scenario | Fiat movement | Token movement |
+|----------|----------------|----------------|
+| **1. Minting** | Customer fiat → Reserve; mirror account credited for customer | Token minted to Customer Wallet A |
+| **2. FX** | Mirror ledger updated (USD balance down, CAD balance up) | Burn source-currency token; mint target-currency token in same wallet |
+| **3. Transaction** | Mirror A debited; Mirror B credited | Token transferred Wallet A → Wallet B |
+| **4. Burning** | Reserve releases fiat → Customer fiat account | Token burned in Customer Wallet A |
+
+---
+
+## 7) Goal 1 Test Items (Updated)
 
 | # | Test Item | Expected Result | Business Value |
 |---|---|---|---|
